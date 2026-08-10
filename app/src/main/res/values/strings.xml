@@ -1,3 +1,114 @@
 <resources>
     <string name="app_name">Number Ninja</string>
+
+    <!-- Operation display names -->
+    <string name="operation_addition">Addition</string>
+    <string name="operation_subtraction">Subtraction</string>
+    <string name="operation_multiplication">Multiplication</string>
+    <string name="operation_division">Division</string>
+
+    <!-- Level display names -->
+    <string name="level_easy">Easy</string>
+    <string name="level_medium">Medium</string>
+    <string name="level_hard">Hard</string>
+    <string name="level_star">Star</string>
+    <string name="level_tables">Times/division tables</string>
+
+    <!-- Training mode display names -->
+    <string name="mode_free_practice">Free Practice</string>
+    <string name="mode_quiz">Quiz</string>
+
+    <!-- Quiz sub-mode display names -->
+    <string name="quiz_sub_mode_progression">Difficulty progression</string>
+    <string name="quiz_sub_mode_shuffle">Shuffle</string>
+    <string name="quiz_sub_mode_fixed_level">Selected level</string>
+
+    <!-- Language display names -->
+    <string name="language_ukrainian">Ukrainian</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_english">English</string>
+
+    <!-- Home screen -->
+    <string name="home_start">Start</string>
+    <string name="home_settings">Settings</string>
+    <string name="home_progress">My Progress</string>
+    <string name="home_summary_separator">" · "</string>
+    <string name="home_summary_fixed_level_format">%1$s: %2$s</string>
+    <string name="home_summary_edit_hint">Tap to change</string>
+
+    <!-- First-run quick setup -->
+    <string name="quick_setup_title">Let\'s set things up</string>
+    <string name="quick_setup_done">Let\'s go!</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_back">Back</string>
+    <string name="settings_operations_label">Operations</string>
+    <string name="settings_level_label">Level</string>
+    <string name="settings_mode_label">Mode</string>
+    <string name="settings_quiz_sub_mode_label">Quiz style</string>
+    <string name="settings_quiz_length_label">Quiz length: %1$d</string>
+    <string name="settings_language_label">Language</string>
+    <string name="settings_level_not_applicable">Level is chosen automatically for the \"Difficulty progression\" and \"Shuffle\" quiz styles</string>
+    <string name="settings_reset_button">Reset to defaults</string>
+    <string name="settings_reset_confirm_title">Reset settings to defaults?</string>
+    <string name="settings_reset_confirm">Reset</string>
+    <string name="settings_reset_cancel">Cancel</string>
+
+    <!-- Session router -->
+    <string name="session_back">Back</string>
+
+    <!-- Free practice screen -->
+    <string name="free_practice_title">Free Practice</string>
+    <string name="free_practice_exit">Back</string>
+    <string name="free_practice_answer_label">Your answer</string>
+    <string name="free_practice_check">Check</string>
+    <string name="free_practice_next">Next</string>
+    <string name="free_practice_continue">Continue</string>
+    <string name="free_practice_correct">Correct! Great job!</string>
+    <string name="free_practice_incorrect">Not quite — the answer was %1$d. Nice try!</string>
+    <string name="free_practice_fact_label">Did you know?</string>
+
+    <!-- Fact card "did you know this?" follow-up (free practice + quiz) -->
+    <string name="fact_knew_it_button">I knew it</string>
+    <string name="fact_did_not_know_button">I didn\'t know</string>
+    <string name="fact_knew_it_response">Great job!</string>
+    <string name="fact_did_not_know_response">You can learn it!</string>
+
+    <!-- Quiz screen -->
+    <string name="quiz_title">Quiz</string>
+    <string name="quiz_progress">Question %1$d of %2$d</string>
+    <string name="quiz_answer_label">Your answer</string>
+    <string name="quiz_check">Check</string>
+    <string name="quiz_next">Next</string>
+    <string name="quiz_see_results">See results</string>
+    <string name="quiz_continue">Continue</string>
+    <string name="quiz_correct">Correct! Great job!</string>
+    <string name="quiz_incorrect">Not quite — the answer was %1$d. Nice try!</string>
+    <string name="quiz_fact_label">Did you know?</string>
+
+    <!-- Quiz results screen -->
+    <string name="quiz_results_title">Quiz Results</string>
+    <string name="quiz_results_score">You got %1$d of %2$d correct!</string>
+    <string name="quiz_results_correct">Correct</string>
+    <string name="quiz_results_incorrect">Incorrect</string>
+    <string name="quiz_results_your_answer">Your answer: %1$d</string>
+    <string name="quiz_results_correct_answer">Correct answer: %1$d</string>
+    <string name="quiz_results_done">Back to Home</string>
+    <string name="quiz_results_empty">No quiz results to show.</string>
+
+    <!-- Progress screen -->
+    <string name="progress_title">My Progress</string>
+    <string name="progress_back">Back</string>
+    <string name="progress_accuracy_label">Accuracy</string>
+    <string name="progress_accuracy_percent">%1$d%%</string>
+    <string name="progress_no_practice">No practice yet</string>
+    <string name="progress_weak_spots_label">Worth a bit more practice</string>
+    <string name="progress_weak_spot_item_general">%1$s — worth practicing a bit more!</string>
+    <string name="progress_weak_spot_item_level">%1$s (%2$s level) — worth practicing a bit more!</string>
+    <string name="progress_weak_spot_item_levels">%1$s (%2$s levels) — worth practicing a bit more!</string>
+    <string name="progress_weak_spot_item_range">%1$s (%2$s) — worth practicing a bit more!</string>
+    <string name="progress_no_weak_spots">No weak spots — nice work!</string>
+    <string name="progress_stats_line">%1$s — %2$d%%, correct %3$d of %4$d</string>
+    <string name="progress_details_dismiss">Close</string>
 </resources>

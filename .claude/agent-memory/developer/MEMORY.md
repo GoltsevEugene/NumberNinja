@@ -1,0 +1,11 @@
+- [UI-layer architecture](architecture_ui_layer.md) — package layout, MVVM/Koin wiring, nav startup gating, AppCompatActivity rationale, XML theme parent
+- [Stack versions & API gotchas](reference_stack_versions.md) — exact catalog versions plus FlowRow/Koin/Compose-lambda gotchas tied to them
+- [Phase A domain fixes](project_phaseA_domain_fixes.md) — distractors(), FIXED_LEVEL, LevelStats/observeLevelStats, weak-spot threshold 3→1, not yet wired into UI
+- [Phase B MCQ answering](project_phaseB_mcq_answering.md) — replaced numeric entry with tap-to-answer 4-option grid, AnswerOptionsGrid, success color tokens
+- [Phase C Settings/Home/Progress](project_phaseC_settings_home_progress.md) — vertical quiz-style radio list, Level gating, Home summary branching, Progress per-level dialog
+- [adb screenshot-testing gotchas](feedback_device_screenshot_testing.md) — use uiautomator bounds not eyeballed coords; status bar swallows taps near y=0-128
+- [Phase D locale/insets/icon](project_phaseD_locale_insets_icon.md) — nullable language=system default, single-owner locale effect (don't null-reset!), generateLocaleConfig, Home inset fix, custom icon
+- [Phase E Settings/first-run/reset](project_phaseE_settings_firstrun_reset.md) — shared SettingsContent, QuickSetupViewModel deleted, markFirstRunComplete await-then-navigate, resetToDefaults preserves language, Mode→radio list, language checkmark fix
+- [Phase F Home summary de-emphasis](project_phaseF_home_summary_deemphasis.md) — summaryText()→summaryLines(), clickable block + "Tap to change" hint, labelMedium/onSurfaceVariant
+- [Phase G feedback-text removal + fact cadence](project_phaseG_feedback_text_removal_fact_cadence.md) — deleted layout-jumping Feedback Text in FreePractice/Quiz, FACT_EVERY 5→4 in both VMs
+- [Phase H Progress grouping + chevron](project_phaseH_progress_grouping_chevron.md) — WeakSpotGroup/groupWeakSpots in ViewModel (UI-layer collapse, not repo), ExpandMore chevron, stringResource-in-lambda gotcha

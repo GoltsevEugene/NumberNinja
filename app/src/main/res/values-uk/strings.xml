@@ -1,0 +1,114 @@
+<resources>
+    <string name="app_name">Number Ninja</string>
+
+    <!-- Operation display names -->
+    <string name="operation_addition">Додавання</string>
+    <string name="operation_subtraction">Віднімання</string>
+    <string name="operation_multiplication">Множення</string>
+    <string name="operation_division">Ділення</string>
+
+    <!-- Level display names -->
+    <string name="level_easy">Легкий</string>
+    <string name="level_medium">Середній</string>
+    <string name="level_hard">Складний</string>
+    <string name="level_star">Зірочка</string>
+    <string name="level_tables">Таблиця множення/ділення</string>
+
+    <!-- Training mode display names -->
+    <string name="mode_free_practice">Вільна практика</string>
+    <string name="mode_quiz">Вікторина</string>
+
+    <!-- Quiz sub-mode display names -->
+    <string name="quiz_sub_mode_progression">Прогресія складності</string>
+    <string name="quiz_sub_mode_shuffle">Перемішування</string>
+    <string name="quiz_sub_mode_fixed_level">Обраний рівень</string>
+
+    <!-- Language display names -->
+    <string name="language_ukrainian">Українська</string>
+    <string name="language_russian">Російська</string>
+    <string name="language_english">Англійська</string>
+
+    <!-- Home screen -->
+    <string name="home_start">Старт</string>
+    <string name="home_settings">Налаштування</string>
+    <string name="home_progress">Мій прогрес</string>
+    <string name="home_summary_separator">" · "</string>
+    <string name="home_summary_fixed_level_format">%1$s: %2$s</string>
+    <string name="home_summary_edit_hint">Натисніть, щоб змінити</string>
+
+    <!-- First-run quick setup -->
+    <string name="quick_setup_title">Налаштуємось</string>
+    <string name="quick_setup_done">Розпочати!</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_back">Назад</string>
+    <string name="settings_operations_label">Дії</string>
+    <string name="settings_level_label">Рівень</string>
+    <string name="settings_mode_label">Режим</string>
+    <string name="settings_quiz_sub_mode_label">Стиль вікторини</string>
+    <string name="settings_quiz_length_label">Довжина вікторини: %1$d</string>
+    <string name="settings_language_label">Мова</string>
+    <string name="settings_level_not_applicable">Рівень підбирається автоматично для стилів вікторини «Прогресія складності» та «Перемішування»</string>
+    <string name="settings_reset_button">Скинути налаштування</string>
+    <string name="settings_reset_confirm_title">Скинути налаштування до типових?</string>
+    <string name="settings_reset_confirm">Скинути</string>
+    <string name="settings_reset_cancel">Скасувати</string>
+
+    <!-- Session router -->
+    <string name="session_back">Назад</string>
+
+    <!-- Free practice screen -->
+    <string name="free_practice_title">Вільна практика</string>
+    <string name="free_practice_exit">Назад</string>
+    <string name="free_practice_answer_label">Твоя відповідь</string>
+    <string name="free_practice_check">Перевірити</string>
+    <string name="free_practice_next">Далі</string>
+    <string name="free_practice_continue">Продовжити</string>
+    <string name="free_practice_correct">Правильно! Молодець!</string>
+    <string name="free_practice_incorrect">Майже — правильна відповідь: %1$d. Спробуй ще!</string>
+    <string name="free_practice_fact_label">Чи знаєш ти?</string>
+
+    <!-- Fact card "did you know this?" follow-up (free practice + quiz) -->
+    <string name="fact_knew_it_button">Знав</string>
+    <string name="fact_did_not_know_button">Не знав</string>
+    <string name="fact_knew_it_response">Молодець!</string>
+    <string name="fact_did_not_know_response">Можеш вивчити!</string>
+
+    <!-- Quiz screen -->
+    <string name="quiz_title">Вікторина</string>
+    <string name="quiz_progress">Питання %1$d з %2$d</string>
+    <string name="quiz_answer_label">Твоя відповідь</string>
+    <string name="quiz_check">Перевірити</string>
+    <string name="quiz_next">Далі</string>
+    <string name="quiz_see_results">Показати результати</string>
+    <string name="quiz_continue">Продовжити</string>
+    <string name="quiz_correct">Правильно! Молодець!</string>
+    <string name="quiz_incorrect">Майже — правильна відповідь: %1$d. Спробуй ще!</string>
+    <string name="quiz_fact_label">Чи знаєш ти?</string>
+
+    <!-- Quiz results screen -->
+    <string name="quiz_results_title">Результати вікторини</string>
+    <string name="quiz_results_score">Правильних відповідей: %1$d з %2$d!</string>
+    <string name="quiz_results_correct">Правильно</string>
+    <string name="quiz_results_incorrect">Неправильно</string>
+    <string name="quiz_results_your_answer">Твоя відповідь: %1$d</string>
+    <string name="quiz_results_correct_answer">Правильна відповідь: %1$d</string>
+    <string name="quiz_results_done">На головний екран</string>
+    <string name="quiz_results_empty">Немає результатів вікторини.</string>
+
+    <!-- Progress screen -->
+    <string name="progress_title">Мій прогрес</string>
+    <string name="progress_back">Назад</string>
+    <string name="progress_accuracy_label">Точність</string>
+    <string name="progress_accuracy_percent">%1$d%%</string>
+    <string name="progress_no_practice">Ще немає тренувань</string>
+    <string name="progress_weak_spots_label">Варто потренуватись ще</string>
+    <string name="progress_weak_spot_item_general">%1$s — варто повторити!</string>
+    <string name="progress_weak_spot_item_level">%1$s (рівень «%2$s») — варто повторити!</string>
+    <string name="progress_weak_spot_item_levels">%1$s (рівні %2$s) — варто повторити!</string>
+    <string name="progress_weak_spot_item_range">%1$s (%2$s) — варто повторити!</string>
+    <string name="progress_no_weak_spots">Слабких місць немає — чудова робота!</string>
+    <string name="progress_stats_line">%1$s — %2$d%%, правильно %3$d з %4$d</string>
+    <string name="progress_details_dismiss">Закрити</string>
+</resources>

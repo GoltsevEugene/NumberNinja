@@ -1,0 +1,114 @@
+<resources>
+    <string name="app_name">Number Ninja</string>
+
+    <!-- Operation display names -->
+    <string name="operation_addition">Сложение</string>
+    <string name="operation_subtraction">Вычитание</string>
+    <string name="operation_multiplication">Умножение</string>
+    <string name="operation_division">Деление</string>
+
+    <!-- Level display names -->
+    <string name="level_easy">Лёгкий</string>
+    <string name="level_medium">Средний</string>
+    <string name="level_hard">Сложный</string>
+    <string name="level_star">Звёздочка</string>
+    <string name="level_tables">Таблица умножения/деления</string>
+
+    <!-- Training mode display names -->
+    <string name="mode_free_practice">Свободная практика</string>
+    <string name="mode_quiz">Викторина</string>
+
+    <!-- Quiz sub-mode display names -->
+    <string name="quiz_sub_mode_progression">Прогрессия сложности</string>
+    <string name="quiz_sub_mode_shuffle">Перемешивание</string>
+    <string name="quiz_sub_mode_fixed_level">Выбранный уровень</string>
+
+    <!-- Language display names -->
+    <string name="language_ukrainian">Украинский</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">Английский</string>
+
+    <!-- Home screen -->
+    <string name="home_start">Старт</string>
+    <string name="home_settings">Настройки</string>
+    <string name="home_progress">Мой прогресс</string>
+    <string name="home_summary_separator">" · "</string>
+    <string name="home_summary_fixed_level_format">%1$s: %2$s</string>
+    <string name="home_summary_edit_hint">Нажмите, чтобы изменить</string>
+
+    <!-- First-run quick setup -->
+    <string name="quick_setup_title">Настроимся</string>
+    <string name="quick_setup_done">Начать!</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_back">Назад</string>
+    <string name="settings_operations_label">Действия</string>
+    <string name="settings_level_label">Уровень</string>
+    <string name="settings_mode_label">Режим</string>
+    <string name="settings_quiz_sub_mode_label">Стиль викторины</string>
+    <string name="settings_quiz_length_label">Длина викторины: %1$d</string>
+    <string name="settings_language_label">Язык</string>
+    <string name="settings_level_not_applicable">Уровень подбирается автоматически для стиля викторин «Прогрессия сложности» и «Перемешивание»</string>
+    <string name="settings_reset_button">Сбросить настройки</string>
+    <string name="settings_reset_confirm_title">Сбросить настройки к значениям по умолчанию?</string>
+    <string name="settings_reset_confirm">Сбросить</string>
+    <string name="settings_reset_cancel">Отмена</string>
+
+    <!-- Session router -->
+    <string name="session_back">Назад</string>
+
+    <!-- Free practice screen -->
+    <string name="free_practice_title">Свободная практика</string>
+    <string name="free_practice_exit">Назад</string>
+    <string name="free_practice_answer_label">Твой ответ</string>
+    <string name="free_practice_check">Проверить</string>
+    <string name="free_practice_next">Далее</string>
+    <string name="free_practice_continue">Продолжить</string>
+    <string name="free_practice_correct">Правильно! Молодец!</string>
+    <string name="free_practice_incorrect">Почти — правильный ответ: %1$d. Попробуй ещё!</string>
+    <string name="free_practice_fact_label">Знаешь ли ты?</string>
+
+    <!-- Fact card "did you know this?" follow-up (free practice + quiz) -->
+    <string name="fact_knew_it_button">Знал</string>
+    <string name="fact_did_not_know_button">Не знал</string>
+    <string name="fact_knew_it_response">Молодец!</string>
+    <string name="fact_did_not_know_response">Можешь выучить!</string>
+
+    <!-- Quiz screen -->
+    <string name="quiz_title">Викторина</string>
+    <string name="quiz_progress">Вопрос %1$d из %2$d</string>
+    <string name="quiz_answer_label">Твой ответ</string>
+    <string name="quiz_check">Проверить</string>
+    <string name="quiz_next">Далее</string>
+    <string name="quiz_see_results">Показать результаты</string>
+    <string name="quiz_continue">Продолжить</string>
+    <string name="quiz_correct">Правильно! Молодец!</string>
+    <string name="quiz_incorrect">Почти — правильный ответ: %1$d. Попробуй ещё!</string>
+    <string name="quiz_fact_label">Знаешь ли ты?</string>
+
+    <!-- Quiz results screen -->
+    <string name="quiz_results_title">Результаты викторины</string>
+    <string name="quiz_results_score">Правильных ответов: %1$d из %2$d!</string>
+    <string name="quiz_results_correct">Правильно</string>
+    <string name="quiz_results_incorrect">Неправильно</string>
+    <string name="quiz_results_your_answer">Твой ответ: %1$d</string>
+    <string name="quiz_results_correct_answer">Правильный ответ: %1$d</string>
+    <string name="quiz_results_done">На главный экран</string>
+    <string name="quiz_results_empty">Нет результатов викторины.</string>
+
+    <!-- Progress screen -->
+    <string name="progress_title">Мой прогресс</string>
+    <string name="progress_back">Назад</string>
+    <string name="progress_accuracy_label">Точность</string>
+    <string name="progress_accuracy_percent">%1$d%%</string>
+    <string name="progress_no_practice">Пока нет тренировок</string>
+    <string name="progress_weak_spots_label">Стоит потренироваться ещё</string>
+    <string name="progress_weak_spot_item_general">%1$s — стоит повторить!</string>
+    <string name="progress_weak_spot_item_level">%1$s (уровень «%2$s») — стоит повторить!</string>
+    <string name="progress_weak_spot_item_levels">%1$s (уровни %2$s) — стоит повторить!</string>
+    <string name="progress_weak_spot_item_range">%1$s (%2$s) — стоит повторить!</string>
+    <string name="progress_no_weak_spots">Слабых мест нет — отличная работа!</string>
+    <string name="progress_stats_line">%1$s — %2$d%%, правильно %3$d из %4$d</string>
+    <string name="progress_details_dismiss">Закрыть</string>
+</resources>
