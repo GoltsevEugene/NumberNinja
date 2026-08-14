@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,6 +24,18 @@ import number.ninja.ui.quiz.QuizResultsScreen
 import number.ninja.ui.session.SessionScreen
 import number.ninja.ui.settings.SettingsScreen
 import org.koin.compose.koinInject
+
+/**
+ * Pops only when there is another destination to display.
+ *
+ * A tap queued just before a destination is removed can otherwise pop the start destination and
+ * leave the [NavHost] with an empty back stack.
+ */
+private fun NavController.popBackStackIfPossible() {
+    if (previousBackStackEntry != null) {
+        popBackStack()
+    }
+}
 
 /**
  * Root composable: waits for the first DataStore emission (so we know whether first
@@ -101,14 +114,14 @@ fun NumberNinjaNavHost(settingsRepository: SettingsRepository = koinInject()) {
             )
         }
         composable<Route.Settings> {
-            SettingsScreen(onBack = navController::popBackStack)
+            SettingsScreen(onBack = navController::popBackStackIfPossible)
         }
         composable<Route.Progress> {
-            ProgressScreen(onBack = navController::popBackStack)
+            ProgressScreen(onBack = navController::popBackStackIfPossible)
         }
         composable<Route.Session> {
             SessionScreen(
-                onExit = navController::popBackStack,
+                onExit = navController::popBackStackIfPossible,
                 onQuizFinished = {
                     // Removes Session (and its QuizViewModel) from the back stack so back-press
                     // from the results screen lands on Home, never back into a finished quiz.
@@ -119,7 +132,7 @@ fun NumberNinjaNavHost(settingsRepository: SettingsRepository = koinInject()) {
             )
         }
         composable<Route.QuizResults> {
-            QuizResultsScreen(onDone = navController::popBackStack)
+            QuizResultsScreen(onDone = navController::popBackStackIfPossible)
         }
     }
 }
