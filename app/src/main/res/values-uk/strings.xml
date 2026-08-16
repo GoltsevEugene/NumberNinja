@@ -54,6 +54,7 @@
     <string name="settings_reset_confirm_title">Скинути налаштування до типових?</string>
     <string name="settings_reset_confirm">Скинути</string>
     <string name="settings_reset_cancel">Скасувати</string>
+    <string name="settings_privacy_policy">Політика конфіденційності</string>
 
     <!-- Session router -->
     <string name="session_back">Назад</string>

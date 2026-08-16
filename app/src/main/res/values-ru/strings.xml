@@ -54,6 +54,7 @@
     <string name="settings_reset_confirm_title">Сбросить настройки к значениям по умолчанию?</string>
     <string name="settings_reset_confirm">Сбросить</string>
     <string name="settings_reset_cancel">Отмена</string>
+    <string name="settings_privacy_policy">Политика конфиденциальности</string>
 
     <!-- Session router -->
     <string name="session_back">Назад</string>

@@ -54,6 +54,7 @@
     <string name="settings_reset_confirm_title">Reset settings to defaults?</string>
     <string name="settings_reset_confirm">Reset</string>
     <string name="settings_reset_cancel">Cancel</string>
+    <string name="settings_privacy_policy">Privacy policy</string>
 
     <!-- Session router -->
     <string name="session_back">Back</string>

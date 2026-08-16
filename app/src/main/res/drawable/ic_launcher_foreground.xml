@@ -1,71 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Custom foreground: the four operation symbols (+, -, x, /) in a 2x2 grid (top row +/-,
-     bottom row x//), all inside the adaptive-icon's ~66dp safe zone (21..87 of the 108dp
-     canvas) so nothing clips on a circular/other mask. Each symbol sits in its own 18dp cell,
-     centered at (40,40)/(68,40)/(40,68)/(68,68) — the three gaps (edge-to-icon and
-     icon-to-icon) are all 10dp so the spacing reads as uniform in every direction. The glyphs
-     themselves are drawn smaller than the cell (short 4dp arms) so the icon doesn't read as a
-     calculator, and a small "?" sits in the shared center point (54,54) between all four
-     cells — the "which operation, what's the answer" idea the app is actually about. -->
+<!-- Custom foreground: the four operation symbols (+, -, x, /) sit near the corners of the
+     adaptive-icon's ~66dp safe zone (21..87 of the 108dp canvas). Their short 3.5dp arms keep
+     them secondary to the larger, bolder question mark at the shared center point (54,54). -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Plus, cell centered at (40,40) -->
+    <!-- Plus, centered at (38,38) -->
     <path
-        android:pathData="M40,36L40,44"
+        android:pathData="M38,34.5L38,41.5"
         android:strokeColor="#FFFFFFFF"
         android:strokeWidth="3"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
     <path
-        android:pathData="M36,40L44,40"
+        android:pathData="M34.5,38L41.5,38"
         android:strokeColor="#FFFFFFFF"
         android:strokeWidth="3"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
-    <!-- Minus, cell centered at (68,40) -->
+    <!-- Minus, centered at (70,38) -->
     <path
-        android:pathData="M64,40L72,40"
+        android:pathData="M66.5,38L73.5,38"
         android:strokeColor="#FFFFFFFF"
         android:strokeWidth="3"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
-    <!-- Multiplication, cell centered at (40,68) -->
+    <!-- Multiplication, centered at (38,70) -->
     <path
-        android:pathData="M36,64L44,72"
-        android:strokeColor="#FFFFFFFF"
-        android:strokeWidth="3"
-        android:strokeLineCap="round"
-        android:fillColor="#00000000" />
-    <path
-        android:pathData="M44,64L36,72"
-        android:strokeColor="#FFFFFFFF"
-        android:strokeWidth="3"
-        android:strokeLineCap="round"
-        android:fillColor="#00000000" />
-    <!-- Division, cell centered at (68,68) -->
-    <path
-        android:pathData="M64,68L72,68"
+        android:pathData="M34.5,66.5L41.5,73.5"
         android:strokeColor="#FFFFFFFF"
         android:strokeWidth="3"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
     <path
-        android:pathData="M68,63.5 m-1.4,0 a1.4,1.4 0 1,0 2.8,0 a1.4,1.4 0 1,0 -2.8,0"
+        android:pathData="M41.5,66.5L34.5,73.5"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <!-- Division, centered at (70,70) -->
+    <path
+        android:pathData="M66.5,70L73.5,70"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M70,65.5 m-1.25,0 a1.25,1.25 0 1,0 2.5,0 a1.25,1.25 0 1,0 -2.5,0"
         android:fillColor="#FFFFFFFF" />
     <path
-        android:pathData="M68,72.5 m-1.4,0 a1.4,1.4 0 1,0 2.8,0 a1.4,1.4 0 1,0 -2.8,0"
+        android:pathData="M70,74.5 m-1.25,0 a1.25,1.25 0 1,0 2.5,0 a1.25,1.25 0 1,0 -2.5,0"
         android:fillColor="#FFFFFFFF" />
-    <!-- Small "?" in the shared center point of the 2x2 grid -->
+    <!-- Prominent "?" in the shared center point of the 2x2 grid -->
     <path
-        android:pathData="M50.5,50 C50.5,46.5 58,46.5 58,50.5 C58,53.5 54,53.5 54,57.5"
+        android:pathData="M49.8,50 C49.8,45.6 58.6,45.6 58.6,50.6 C58.6,54 54,54 54,58.6"
         android:strokeColor="#FFFFFFFF"
-        android:strokeWidth="2.4"
+        android:strokeWidth="2.8"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
     <path
-        android:pathData="M54,62 m-1.4,0 a1.4,1.4 0 1,0 2.8,0 a1.4,1.4 0 1,0 -2.8,0"
+        android:pathData="M54,63.5 m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0"
         android:fillColor="#FFFFFFFF" />
 </vector>
