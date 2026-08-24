@@ -114,7 +114,7 @@ class QuizViewModel(
         )
     }
 
-    /** Auto-advance after the 3s answer-highlight window (`QuizScreen`'s `LaunchedEffect`) — this
+    /** Auto-advance after the lifecycle-aware answer-highlight window in `QuizScreen` — this
      * also replaces the old manual "See results" tap: on the last example this goes straight to
      * [finish], not to a button.
      */

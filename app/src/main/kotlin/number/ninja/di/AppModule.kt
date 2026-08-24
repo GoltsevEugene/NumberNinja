@@ -4,6 +4,7 @@ import androidx.room.Room
 import number.ninja.data.db.AppDatabase
 import number.ninja.data.db.StatsRepository
 import number.ninja.data.facts.FactsRepository
+import number.ninja.data.settings.AppLanguageManager
 import number.ninja.data.settings.SettingsRepository
 import number.ninja.data.settings.settingsDataStore
 import number.ninja.domain.ExampleGenerator
@@ -24,6 +25,7 @@ val dataModule = module {
     single { get<AppDatabase>().attemptDao() }
     single { StatsRepository(get()) }
     single { SettingsRepository(androidContext().settingsDataStore) }
+    single { AppLanguageManager(androidContext().settingsDataStore) }
     single { FactsRepository(androidContext()) }
 }
 
@@ -33,7 +35,7 @@ val domainModule = module {
 
 val uiModule = module {
     viewModel { HomeViewModel(get()) }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get()) }
     viewModel { ProgressViewModel(get()) }
     viewModel { FreePracticeViewModel(get(), get(), get(), get()) }
     // Holds a finished quiz's attempts across the Session -> QuizResults navigation hop, since

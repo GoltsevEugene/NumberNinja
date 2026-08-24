@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -26,7 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,8 +40,11 @@ import kotlinx.coroutines.delay
 import number.ninja.R
 import number.ninja.domain.MathExample
 import number.ninja.ui.components.AnswerOptionsGrid
+import number.ninja.ui.components.ANSWER_OPTIONS_ARM_DELAY_MILLIS
 import number.ninja.ui.components.BigActionButton
+import number.ninja.ui.components.LifecycleAwareFeedbackAutoAdvance
 import number.ninja.ui.components.adaptiveContentWidth
+import number.ninja.ui.components.rememberThrottledClick
 import number.ninja.ui.render
 import org.koin.androidx.compose.koinViewModel
 
@@ -48,8 +57,8 @@ import org.koin.androidx.compose.koinViewModel
  * [QuizUiState.Finished] is reached, to navigate to the results screen.
  *
  * Answering is 4-option multiple choice, not manual numeric entry: tapping an option *is* the
- * answer (no Check button), highlights green/red in place, and after a 3s pause
- * ([ANSWER_HIGHLIGHT_DURATION_MILLIS]) auto-advances — including straight to [onFinished] after
+ * answer (no Check button), highlights green/red in place, then auto-advances after 1 second for
+ * a correct answer or 2.3 seconds for a wrong answer — including straight to [onFinished] after
  * the last example's highlight window, replacing the old manual "See results" tap. Same pattern
  * as [number.ninja.ui.practice.FreePracticeScreen]; the `Fact` interstitial is unaffected and
  * still requires a manual "Continue" tap.
@@ -62,13 +71,14 @@ fun QuizScreen(
     viewModel: QuizViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val exitClick = rememberThrottledClick(onClick = onExit)
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.quiz_title)) },
                 navigationIcon = {
-                    IconButton(onClick = onExit) {
+                    IconButton(onClick = exitClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.session_back),
@@ -106,15 +116,17 @@ fun QuizScreen(
                         onSelect = { answer -> viewModel.submitAnswer(state.example, answer) },
                     )
                     is QuizUiState.Feedback -> {
-                        // Auto-advance 3s after the answer highlight appears — on the last
+                        // Auto-advance after the answer highlight appears — briefly for a correct
+                        // answer, longer for a wrong one so the learner can compare answers. On the last
                         // example this calls onFeedbackDismissed() straight into Finished, with
                         // no intermediate "See results" tap. This branch only (re)composes once
                         // per distinct Feedback instance (state always moves on right after), so
                         // the effect fires exactly once per answered question.
-                        LaunchedEffect(state) {
-                            delay(ANSWER_HIGHLIGHT_DURATION_MILLIS)
-                            viewModel.onFeedbackDismissed()
-                        }
+                        LifecycleAwareFeedbackAutoAdvance(
+                            feedbackKey = state,
+                            isCorrect = state.selectedAnswer == state.correctAnswer,
+                            onAdvance = viewModel::onFeedbackDismissed,
+                        )
                         FeedbackContent(state = state)
                     }
                     is QuizUiState.Fact -> FactContent(
@@ -135,8 +147,6 @@ fun QuizScreen(
     }
 }
 
-private const val ANSWER_HIGHLIGHT_DURATION_MILLIS = 2300L
-
 @Composable
 private fun QuestionContent(
     example: MathExample,
@@ -145,6 +155,12 @@ private fun QuestionContent(
     total: Int,
     onSelect: (Int) -> Unit,
 ) {
+    var answersEnabled by remember(example, position) { mutableStateOf(false) }
+    LaunchedEffect(example, position) {
+        delay(ANSWER_OPTIONS_ARM_DELAY_MILLIS)
+        answersEnabled = true
+    }
+
     Column(
         modifier = Modifier.adaptiveContentWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -161,6 +177,7 @@ private fun QuestionContent(
             selected = null,
             correctAnswer = example.answer(),
             onSelect = onSelect,
+            enabled = answersEnabled,
         )
     }
 }
@@ -194,17 +211,25 @@ private fun FeedbackContent(state: QuizUiState.Feedback) {
 
 /**
  * Fact card with a "did you know this already?" follow-up (spec follow-up request): starts by
- * asking [FactKnowledgeButtons], then swaps to a one-line response ("Great job!" / "You can learn
- * it") plus the same "Continue" tap as before. [knewIt] is reset per distinct fact via the
- * `remember(text)` key, purely local UI state — nothing is recorded to stats, this is just
- * encouragement, not a graded attempt. Same behavior as
+ * asking [FactKnowledgeButtons], then shows a one-line response ("Great job!" / "You can learn
+ * it") below those now-disabled buttons plus the same "Continue" tap as before. The response and
+ * Continue areas are measured from the start even while invisible, so revealing them cannot
+ * recenter or move the fact text. [knewIt] is reset per distinct fact via the `remember(text)`
+ * key, purely local UI state — nothing is recorded to stats, this is just encouragement, not a
+ * graded attempt. Same behavior as
  * [number.ninja.ui.practice.FreePracticeScreen]'s `FactContent`.
  */
 @Composable
 private fun FactContent(text: String, onContinue: () -> Unit) {
     var knewIt by remember(text) { mutableStateOf<Boolean?>(null) }
     Column(
-        modifier = Modifier.adaptiveContentWidth(),
+        // Keep the constant-height fact layout centered when it fits, but let it become a bounded
+        // scroll viewport in landscape, split-screen, and large-font configurations. Its measured
+        // content stays identical before/after selection, so the fact text and scroll range do not
+        // jump when feedback appears.
+        modifier = Modifier
+            .adaptiveContentWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -213,35 +238,57 @@ private fun FactContent(text: String, onContinue: () -> Unit) {
             style = MaterialTheme.typography.titleMedium,
         )
         Text(text = text, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
-        when (knewIt) {
-            null -> FactKnowledgeButtons(onKnewIt = { knewIt = true }, onDidNotKnow = { knewIt = false })
-            true -> {
-                Text(
-                    text = stringResource(R.string.fact_knew_it_response),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
+        FactKnowledgeButtons(
+            selected = knewIt,
+            onKnewIt = { if (knewIt == null) knewIt = true },
+            onDidNotKnow = { if (knewIt == null) knewIt = false },
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            // Both alternatives stay composed so this slot's measured height is constant in all
+            // states and locales. Hidden text is removed from accessibility semantics.
+            FactFeedbackText(
+                text = stringResource(R.string.fact_knew_it_response),
+                visible = knewIt == true,
+            )
+            FactFeedbackText(
+                text = stringResource(R.string.fact_did_not_know_response),
+                visible = knewIt == false,
+            )
+        }
+        Box(modifier = Modifier.fillMaxWidth().height(64.dp)) {
+            if (knewIt != null) {
+                BigActionButton(
+                    text = stringResource(R.string.quiz_continue),
+                    onClick = onContinue,
                 )
-                BigActionButton(text = stringResource(R.string.quiz_continue), onClick = onContinue)
-            }
-            false -> {
-                Text(
-                    text = stringResource(R.string.fact_did_not_know_response),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-                BigActionButton(text = stringResource(R.string.quiz_continue), onClick = onContinue)
             }
         }
     }
 }
 
 @Composable
-private fun FactKnowledgeButtons(onKnewIt: () -> Unit, onDidNotKnow: () -> Unit) {
+private fun FactFeedbackText(text: String, visible: Boolean) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = if (visible) Modifier else Modifier.alpha(0f).clearAndSetSemantics { },
+    )
+}
+
+@Composable
+private fun FactKnowledgeButtons(selected: Boolean?, onKnewIt: () -> Unit, onDidNotKnow: () -> Unit) {
+    val enabled = selected == null
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        OutlinedButton(onClick = onDidNotKnow) {
+        OutlinedButton(onClick = onDidNotKnow, enabled = enabled) {
             Text(stringResource(R.string.fact_did_not_know_button))
         }
-        Button(onClick = onKnewIt) {
+        Button(onClick = onKnewIt, enabled = enabled) {
             Text(stringResource(R.string.fact_knew_it_button))
         }
     }

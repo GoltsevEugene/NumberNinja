@@ -1,167 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="facts_animals">
-        <item>A blue whale\'s heart is as big as a small car, and it can be heard from over a mile away!</item>
+        <item>A blue whale\'s heart can weigh around 400 pounds (180 kg) — about as much as an upright piano.</item>
         <item>Octopuses have three hearts and blue blood.</item>
-        <item>A group of flamingos is called a \"flamboyance.\"</item>
-        <item>Sea otters hold hands while sleeping so they don\'t drift apart.</item>
-        <item>A snail can sleep for three years straight!</item>
-        <item>Elephants are the only animals that can\'t jump.</item>
-        <item>A hummingbird\'s heart beats over 1,200 times per minute.</item>
-        <item>Cows have best friends and get stressed when separated from them.</item>
-        <item>A single giant tortoise can live for more than 150 years.</item>
-        <item>Koalas have fingerprints so similar to humans that they could confuse a crime scene!</item>
+        <item>Flamingos get their pink color from pigments in the algae and tiny crustaceans they eat.</item>
+        <item>Sea otters sometimes hold hands while sleeping so they don\'t drift apart.</item>
+        <item>Some snails can remain dormant for up to three years during long dry periods.</item>
+        <item>Elephants cannot jump, but they can walk surprisingly quietly for their size.</item>
+        <item>A ruby-throated hummingbird\'s heart can beat more than 1,200 times per minute in flight.</item>
+        <item>Cows form preferred friendships and can become stressed when separated from their companions.</item>
+        <item>Giant tortoises can live for more than 150 years.</item>
+        <item>Koala fingerprints look remarkably similar to human fingerprints.</item>
         <item>Butterflies taste with their feet.</item>
-        <item>A shrimp\'s heart is located in its head.</item>
-        <item>Polar bears have black skin under their white fur to help absorb heat.</item>
+        <item>A shrimp\'s heart is located in its cephalothorax, where its head and chest are fused together.</item>
+        <item>Polar bears have black skin beneath fur that looks white but is actually translucent.</item>
         <item>A woodpecker can peck a tree up to 20 times per second.</item>
-        <item>Kangaroos can\'t walk backwards.</item>
+        <item>Kangaroos cannot easily move backward because of their large feet and powerful tail.</item>
         <item>The tongue of a giraffe can be up to 20 inches (50 cm) long.</item>
-        <item>Starfish don\'t have brains or blood.</item>
+        <item>Sea stars have no brain or heart; a water vascular system powers their many tube feet.</item>
         <item>An ostrich\'s eye is bigger than its brain.</item>
-        <item>Dolphins give each other names — special clicks just for one dolphin friend.</item>
+        <item>Dolphins recognize one another by unique signature whistles.</item>
         <item>A cheetah can go from 0 to 60 mph in about 3 seconds.</item>
-        <item>Some frogs can freeze solid in winter and thaw out alive in spring.</item>
-        <item>A crocodile cannot stick its tongue out.</item>
-        <item>Honeybees can recognize human faces.</item>
-        <item>A group of crows is called a \"murder.\"</item>
-        <item>The blue whale is the loudest animal on Earth — louder than a jet engine!</item>
+        <item>Some wood frogs survive winter even when much of the water in their bodies freezes.</item>
+        <item>A membrane holds a crocodile\'s tongue in place, so it cannot stick it out.</item>
+        <item>Honeybees can learn to distinguish patterns that resemble human faces.</item>
+        <item>Crows can recognize individual human faces and remember them for years.</item>
+        <item>The blue whale is the largest animal known to have ever lived on Earth.</item>
         <item>Some ants can carry objects 50 times their own body weight.</item>
-        <item>A group of pandas is called an \"embarrassment.\"</item>
-        <item>Sloths only poop about once a week.</item>
-        <item>An electric eel can produce a shock strong enough to stun a horse.</item>
-        <item>Penguins propose to their mates with a pebble.</item>
+        <item>A newborn giant panda is pink, nearly hairless, and about 1/900 the size of its mother.</item>
+        <item>Axolotls can regrow lost limbs, including bones, muscles, nerves, and skin.</item>
+        <item>Electric eels can generate shocks of up to about 860 volts.</item>
+        <item>Adélie penguins build nests from pebbles and carefully guard the stones they collect.</item>
     </string-array>
 
     <string-array name="facts_space">
-        <item>A day on Venus is longer than a year on Venus!</item>
+        <item>Venus takes longer to rotate once on its axis than to complete one orbit around the Sun.</item>
         <item>The footprints left by astronauts on the Moon will stay there for millions of years — there\'s no wind to blow them away.</item>
         <item>One million Earths could fit inside the Sun.</item>
-        <item>Saturn could float in water because it\'s mostly made of gas.</item>
+        <item>Saturn\'s average density is lower than water, so it could float in an ocean large enough to hold it.</item>
         <item>A neutron star is so dense that a teaspoon of it would weigh billions of tons.</item>
         <item>There are more stars in the universe than grains of sand on every beach on Earth.</item>
-        <item>Space is completely silent because there\'s no air to carry sound.</item>
+        <item>The vacuum of space is silent because it has no medium to carry sound waves.</item>
         <item>Jupiter has the shortest day of all the planets — it spins all the way around in about 10 hours.</item>
-        <item>The largest known star, UY Scuti, is so big that Earth would look like a tiny dot next to it.</item>
-        <item>On Mars, the sunsets look blue instead of orange.</item>
+        <item>Some red supergiant stars have diameters more than 1,000 times that of the Sun.</item>
+        <item>On Mars, the sky near the setting Sun looks blue instead of orange.</item>
         <item>An entire year on Neptune lasts about 165 Earth years.</item>
-        <item>Astronauts grow up to 2 inches (5 cm) taller in space because their spine stretches out.</item>
-        <item>There is a giant storm on Jupiter, called the Great Red Spot, that has been raging for hundreds of years.</item>
+        <item>Astronauts can temporarily grow up to 2 inches (5 cm) taller in space because their spine stretches out.</item>
+        <item>Jupiter\'s Great Red Spot is a giant storm that astronomers have observed for at least 150 years.</item>
         <item>The Moon is slowly moving away from Earth — about 1.5 inches (3.8 cm) every year.</item>
-        <item>It would take more than a thousand years to walk to the Moon.</item>
+        <item>Walking nonstop at 3 mph (5 km/h) would take almost nine years to reach the Moon.</item>
         <item>The International Space Station travels around the Earth 16 times every single day.</item>
         <item>Venus is the hottest planet, even though Mercury is closer to the Sun.</item>
-        <item>A cloud of gas in space, called a nebula, can be trillions of miles wide.</item>
-        <item>If you could drive a car to the Sun, it would take over 176 years.</item>
+        <item>A cloud of gas and dust called a nebula can span hundreds of light-years.</item>
+        <item>Driving nonstop at 60 mph (about 100 km/h) would take roughly 177 years to reach the Sun.</item>
         <item>Saturn\'s rings are made mostly of ice and rock, and some pieces are as small as a grain of sugar.</item>
         <item>The Sun makes up about 99.8% of all the mass in our entire solar system.</item>
-        <item>There is a planet made almost entirely of diamond, discovered by scientists in 2004.</item>
-        <item>Mercury has no atmosphere, so its temperature can swing from freezing to scorching in the same day.</item>
+        <item>Some planets beyond our solar system orbit two stars at once.</item>
+        <item>Mercury has only a thin exosphere, so its surface is scorching by day and freezing at night.</item>
         <item>Black holes don\'t actually \"suck\" things in — objects fall toward them because of gravity, just like on Earth.</item>
-        <item>A full spacesuit costs more than $12 million.</item>
-        <item>The Milky Way galaxy is on a slow collision course with a neighboring galaxy, but it won\'t happen for billions of years.</item>
-        <item>You can\'t hear yourself burp in space, because sound needs air to travel.</item>
-        <item>Uranus rotates on its side, so it basically rolls around the Sun like a ball.</item>
-        <item>The footprints on the Moon are from Apollo astronauts, but only 12 people have ever walked there.</item>
+        <item>In microgravity, a massive object is still hard to stop once it starts moving because it keeps its inertia.</item>
+        <item>Our solar system lies in the Orion Spur, a small branch between two of the Milky Way\'s main spiral arms.</item>
+        <item>In microgravity, a candle flame becomes nearly spherical instead of teardrop-shaped.</item>
+        <item>Uranus\'s axis is tilted about 98 degrees, so the planet rotates almost on its side.</item>
+        <item>Apollo astronauts left reflectors on the Moon that scientists still use to measure its distance from Earth.</item>
         <item>Comets are sometimes called \"dirty snowballs\" because they\'re made of ice, dust, and rock.</item>
     </string-array>
 
     <string-array name="facts_dinosaurs">
         <item>Some dinosaurs, like Velociraptor, were actually about the size of a turkey — not giant like in movies!</item>
         <item>The word \"dinosaur\" means \"terrible lizard\" in Greek.</item>
-        <item>The Argentinosaurus may have weighed as much as 10 elephants.</item>
+        <item>Argentinosaurus may have weighed as much as 10 elephants.</item>
         <item>Some dinosaurs had feathers, just like birds today.</item>
-        <item>Birds are actually the closest living relatives of dinosaurs.</item>
-        <item>The Tyrannosaurus rex had teeth as long as bananas.</item>
-        <item>A Stegosaurus\'s brain was about the size of a walnut.</item>
-        <item>The largest dinosaur eggs ever found were about the size of a basketball.</item>
-        <item>Some dinosaurs, like the Spinosaurus, could swim and hunt fish in rivers.</item>
+        <item>Modern birds are the only dinosaurs that survived the mass extinction 66 million years ago.</item>
+        <item>A Tyrannosaurus rex tooth, including its root, could be about as long as a banana.</item>
+        <item>Stegosaurus had two rows of large plates along its back and four spikes on its tail.</item>
+        <item>Some fossil dinosaur eggs are more than 18 inches (45 cm) long.</item>
+        <item>Spinosaurus had a long, crocodile-like snout and conical teeth suited to catching fish.</item>
         <item>Triceratops had one of the largest skulls of any land animal ever, up to 8 feet (2.4 m) long.</item>
-        <item>Dinosaurs lived on Earth for over 165 million years before disappearing.</item>
+        <item>Non-avian dinosaurs lived on Earth for over 165 million years, until the mass extinction 66 million years ago.</item>
         <item>Not all giant prehistoric creatures were dinosaurs — flying pterosaurs and swimming plesiosaurs were different animal groups.</item>
         <item>Some small dinosaurs were about the size of a chicken.</item>
         <item>Scientists believe some dinosaurs could run as fast as 30 miles per hour.</item>
-        <item>The very first dinosaur fossil was officially named in 1824.</item>
-        <item>A group of Deinonychus may have hunted together in packs, much like wolves.</item>
+        <item>Megalosaurus became the first dinosaur to be formally described by scientists, in 1824.</item>
+        <item>Deinonychus had a large, curved claw on the second toe of each foot.</item>
         <item>Some long-necked dinosaurs, like Brachiosaurus, could reach leaves 30 feet (9 m) up in trees.</item>
         <item>Fossilized dinosaur footprints can show scientists how fast a dinosaur was walking or running.</item>
-        <item>The Microraptor was a dinosaur small enough to fit in your hand and may have been able to glide.</item>
+        <item>Microraptor was about the size of a crow and had long flight feathers on both its arms and legs.</item>
         <item>Many dinosaurs laid eggs in nests, just like birds do today.</item>
-        <item>Scientists can sometimes tell what a dinosaur ate by studying fossilized poop, called coprolites!</item>
-        <item>The Ankylosaurus had a giant bony club at the end of its tail for defense.</item>
-        <item>Pterosaurs, flying reptiles from the dinosaur age, had wingspans as wide as a small airplane.</item>
-        <item>Some dinosaur fossils have been found with preserved skin, showing bumpy, scaly textures.</item>
-        <item>The Compsognathus was one of the smallest known dinosaurs, about the size of a cat.</item>
-        <item>Many plant-eating dinosaurs had teeth built specifically for grinding tough leaves.</item>
+        <item>Some dinosaur fossils preserve feathers so finely that scientists can study their original color patterns.</item>
+        <item>Ankylosaurus had a giant bony club at the end of its tail for defense.</item>
+        <item>Some pterosaurs, flying reptiles from the dinosaur age, had wingspans as wide as a small airplane.</item>
+        <item>Some fossils preserve dinosaur skin impressions, revealing bumpy or scaly surfaces.</item>
+        <item>Compsognathus was a small dinosaur, about the size of a cat.</item>
+        <item>Many plant-eating dinosaurs had teeth adapted for grinding tough leaves.</item>
         <item>Scientists think some dinosaurs may have been warm-blooded, more like birds than lizards.</item>
-        <item>The longest dinosaur trackway ever found stretches for miles across ancient mud that turned to stone.</item>
+        <item>Dinosaur trackways sometimes preserve many parallel paths, suggesting that the animals traveled together.</item>
         <item>A Parasaurolophus had a long, curved crest on its head that may have made loud trumpeting sounds.</item>
-        <item>Most of what we know about dinosaurs comes from studying fossilized bones buried for millions of years.</item>
+        <item>Dinosaur fossils include bones, teeth, eggs, footprints, skin impressions, and even feathers.</item>
     </string-array>
 
     <string-array name="facts_nature_records">
         <item>The tallest tree in the world, a redwood named Hyperion, is taller than a 30-story building.</item>
-        <item>Antarctica is technically the world\'s largest desert because it gets so little precipitation.</item>
-        <item>The Amazon Rainforest produces about 20% of the world\'s oxygen.</item>
-        <item>Mount Everest grows about 4 millimeters taller every year.</item>
+        <item>Antarctica is the world\'s largest desert because deserts are defined by how little precipitation they receive.</item>
+        <item>The Amazon is the largest tropical rainforest on Earth, covering more than 5.5 million square kilometers.</item>
+        <item>The Himalayas are still rising because the Indian tectonic plate continues to press into the Eurasian plate.</item>
         <item>The Sahara Desert is almost as big as the entire United States.</item>
         <item>Lightning can be five times hotter than the surface of the Sun.</item>
-        <item>The deepest part of the ocean, the Mariana Trench, is deeper than Mount Everest is tall.</item>
-        <item>A single bolt of lightning contains enough energy to toast about 100,000 slices of bread.</item>
-        <item>The largest living organism on Earth is a fungus in Oregon that covers almost 4 square miles.</item>
-        <item>The Dead Sea is so salty that people can float on top of it without even trying.</item>
-        <item>The fastest wind speed ever recorded on Earth was over 250 miles per hour, during a tornado.</item>
+        <item>The Mariana Trench is so deep that Mount Everest could fit inside it with room to spare.</item>
+        <item>Thunder is the sound of air rapidly expanding after lightning heats it.</item>
+        <item>A honey fungus in Oregon forms one underground network across almost 4 square miles.</item>
+        <item>The Dead Sea is so salty that its dense water makes floating unusually easy.</item>
+        <item>A 253 mph (407 km/h) wind gust was recorded on Barrow Island during Tropical Cyclone Olivia in 1996.</item>
         <item>Niagara Falls moves so much water that it could fill an Olympic swimming pool in about one second.</item>
-        <item>The world\'s largest snowflake on record was reportedly 15 inches wide.</item>
-        <item>Death Valley is the hottest place in North America, with ground temperatures over 200°F (93°C).</item>
-        <item>The Great Barrier Reef is the largest living structure on Earth, visible even from space.</item>
-        <item>A single raindrop falls at about 20 miles per hour.</item>
-        <item>The largest desert flower, the corpse flower, can smell like rotting meat to attract insects.</item>
-        <item>Some parts of Chile\'s Atacama Desert have never recorded a single drop of rain.</item>
-        <item>The tallest waterfall in the world, Angel Falls, drops for almost 3,200 feet.</item>
-        <item>The largest cave chamber in the world could fit multiple jumbo jets inside it.</item>
-        <item>Glaciers hold about 70% of all the fresh water on Earth.</item>
-        <item>A rainbow is actually a full circle, but we usually only see half of it from the ground.</item>
-        <item>The coldest temperature ever recorded on Earth was about -128°F (-89°C) in Antarctica.</item>
+        <item>Snow crystals usually have six-fold symmetry because of the way water molecules arrange as they freeze.</item>
+        <item>Ground temperatures in Death Valley can rise above 200°F (93°C).</item>
+        <item>The Great Barrier Reef is the world\'s largest coral reef system and stretches for more than 1,400 miles (2,300 km).</item>
+        <item>A raindrop\'s falling speed depends on its size; large drops can reach about 20 mph (32 km/h).</item>
+        <item>Leaves of the giant water lily can grow more than 10 feet (3 m) across.</item>
+        <item>The Atacama Desert is so dry that some weather stations have gone decades without measurable rain.</item>
+        <item>Angel Falls, the world\'s tallest waterfall, has a total height of about 3,200 feet (979 m).</item>
+        <item>Some cave chambers are so vast that clouds can form inside them.</item>
+        <item>Glaciers and ice caps store about 69% of Earth\'s fresh water.</item>
+        <item>A rainbow is actually a full circle, but from the ground we usually see only an arc.</item>
+        <item>The lowest air temperature measured directly on Earth was about -128°F (-89°C) in Antarctica.</item>
         <item>The Amazon River carries more water than the next seven biggest rivers combined.</item>
         <item>Bamboo is one of the fastest-growing plants and can grow almost 3 feet (91 cm) in a single day.</item>
-        <item>The largest volcano in our solar system is actually on Mars, not Earth.</item>
-        <item>Some redwood trees alive today were already growing before ancient Rome existed.</item>
+        <item>Olympus Mons on Mars is the largest volcano in our solar system.</item>
+        <item>Some giant sequoias live for more than 3,000 years.</item>
         <item>The Sahara Desert was once green and covered in lakes, thousands of years ago.</item>
-        <item>The world\'s largest hailstone was almost as big as a volleyball.</item>
-        <item>Iceberg tips are just the top — about 90% of an iceberg hides underwater.</item>
+        <item>The largest hailstone measured in the United States was almost as wide as a volleyball.</item>
+        <item>Only about 10% of an iceberg rises above the water; the other 90% remains submerged.</item>
     </string-array>
 
     <string-array name="facts_math">
-        <item>Zero is the only number that can\'t be represented in Roman numerals.</item>
-        <item>A \"googol\" is the number 1 followed by 100 zeros — way bigger than the company Google\'s name comes from!</item>
-        <item>The symbol for infinity (∞) is called a \"lemniscate.\"</item>
+        <item>The traditional Roman numeral system has no symbol for zero.</item>
+        <item>A \"googol\" is 1 followed by 100 zeros, and its name inspired the name Google.</item>
+        <item>The infinity symbol (∞) has the shape of a curve called a \"lemniscate.\"</item>
         <item>If you add up all the numbers from 1 to 100, you get 5,050.</item>
         <item>A hexagon has exactly the same number of sides as it has angles: six.</item>
-        <item>Multiplying any number by 9 and adding up the digits of the answer always gives you 9 (try 9×7=63, and 6+3=9!).</item>
-        <item>The number 40, when written out as \"forty,\" is the only number spelled with letters in alphabetical order.</item>
+        <item>For any positive multiple of 9, repeatedly adding its digits until one digit remains gives 9.</item>
+        <item>A Möbius strip has only one side and one edge.</item>
         <item>Ancient Egyptians used fractions over 4,000 years ago to divide bread and land fairly.</item>
         <item>A \"palindrome number,\" like 121 or 3443, reads the same forwards and backwards.</item>
         <item>The equal sign (=) was invented in 1557 by a mathematician who was tired of writing \"is equal to.\"</item>
         <item>Every square is a rectangle, but not every rectangle is a square.</item>
-        <item>The number pi (π) never ends and never repeats — mathematicians have calculated trillions of its digits.</item>
+        <item>The decimal form of pi (π) never ends or settles into a repeating pattern.</item>
         <item>A \"baker\'s dozen\" means 13 instead of 12, an old tradition from bakers giving one extra item.</item>
         <item>You can multiply by 5 quickly by multiplying by 10 and then dividing by 2.</item>
-        <item>The word \"hundred\" comes from an old word meaning \"a set of ten times ten.\"</item>
+        <item>A prime number has exactly two positive divisors: 1 and itself.</item>
         <item>A googolplex is 1 followed by a googol of zeros — a number too big to even write out!</item>
         <item>Ancient Babylonians counted using a base-60 number system, which is why we have 60 minutes in an hour.</item>
         <item>Any number multiplied by zero always equals zero — no matter how big the number is!</item>
         <item>An abacus, one of the earliest calculating tools, is still used to teach math today.</item>
-        <item>A triangle\'s three angles always add up to exactly 180 degrees.</item>
-        <item>The Fibonacci sequence, found in sunflowers and seashells, starts 1, 1, 2, 3, 5, 8, 13...</item>
-        <item>Zero was invented as a number relatively late in history, first used in ancient India.</item>
-        <item>Every even number greater than 2 can be split into two prime numbers added together.</item>
-        <item>The plus sign (+) comes from an old shorthand way of writing the Latin word \"et,\" meaning \"and.\"</item>
+        <item>The angles of a triangle on a flat surface add up to exactly 180 degrees.</item>
+        <item>In many sunflower heads, the numbers of clockwise and counterclockwise spirals match consecutive Fibonacci numbers.</item>
+        <item>Mathematicians in ancient India developed rules for calculating with zero as a number.</item>
+        <item>Goldbach\'s conjecture says every even number greater than 2 is the sum of two primes, but no one has proved it yet.</item>
+        <item>The plus sign (+) is thought to come from an old shorthand way of writing the Latin word \"et,\" meaning \"and.\"</item>
         <item>A number is divisible by 3 if the sum of its digits is divisible by 3.</item>
-        <item>Ancient Romans didn\'t have a symbol for zero at all in their numeral system.</item>
-        <item>A \"perfect number,\" like 6 or 28, equals the sum of all its smaller divisors (1+2+3=6!).</item>
+        <item>Zero is neither positive nor negative.</item>
+        <item>A \"perfect number,\" like 6 or 28, equals the sum of its smaller positive divisors; for example, 1+2+3=6.</item>
         <item>The multiplication sign (×) was first used in print in the year 1631.</item>
-        <item>Clocks are one of the few places we still count using both 12s and 60s instead of 10s.</item>
+        <item>Timekeeping still groups units by 12 and 60 instead of using only groups of 10.</item>
         <item>A square number is what you get when you multiply a number by itself, like 4×4=16.</item>
     </string-array>
 </resources>

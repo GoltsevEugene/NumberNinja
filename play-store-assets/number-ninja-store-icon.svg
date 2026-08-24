@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    width="512"
+    height="512"
+    viewBox="0 0 512 512">
+  <!-- Google Play applies its own icon mask, so the artwork intentionally fills the full square. -->
+  <rect width="512" height="512" fill="#B4560A"/>
+
+  <!-- Exact foreground geometry from the app's adaptive launcher icon, scaled from 108 to 512. -->
+  <g transform="scale(4.7407407407)" fill="none" stroke="#FFFFFF" stroke-linecap="round">
+    <!-- Plus -->
+    <path d="M38 34.5 L38 41.5" stroke-width="3"/>
+    <path d="M34.5 38 L41.5 38" stroke-width="3"/>
+
+    <!-- Minus -->
+    <path d="M66.5 38 L73.5 38" stroke-width="3"/>
+
+    <!-- Multiplication -->
+    <path d="M34.5 66.5 L41.5 73.5" stroke-width="3"/>
+    <path d="M41.5 66.5 L34.5 73.5" stroke-width="3"/>
+
+    <!-- Division bar -->
+    <path d="M66.5 70 L73.5 70" stroke-width="3"/>
+
+    <!-- Question mark -->
+    <path d="M49.8 50 C49.8 45.6 58.6 45.6 58.6 50.6 C58.6 54 54 54 54 58.6"
+        stroke-width="2.8"/>
+  </g>
+
+  <!-- Filled dots are separate so their shapes stay identical to the adaptive icon. -->
+  <g transform="scale(4.7407407407)" fill="#FFFFFF">
+    <circle cx="70" cy="65.5" r="1.25"/>
+    <circle cx="70" cy="74.5" r="1.25"/>
+    <circle cx="54" cy="63.5" r="1.6"/>
+  </g>
+</svg>

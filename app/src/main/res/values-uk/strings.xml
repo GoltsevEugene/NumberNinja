@@ -24,6 +24,7 @@
     <string name="quiz_sub_mode_fixed_level">Обраний рівень</string>
 
     <!-- Language display names -->
+    <string name="language_system">Як у системі</string>
     <string name="language_ukrainian">Українська</string>
     <string name="language_russian">Російська</string>
     <string name="language_english">Англійська</string>
@@ -34,7 +35,7 @@
     <string name="home_progress">Мій прогрес</string>
     <string name="home_summary_separator">" · "</string>
     <string name="home_summary_fixed_level_format">%1$s: %2$s</string>
-    <string name="home_summary_edit_hint">Натисніть, щоб змінити</string>
+    <string name="home_summary_edit_hint">Змінити налаштування</string>
 
     <!-- First-run quick setup -->
     <string name="quick_setup_title">Налаштуємось</string>
@@ -58,6 +59,11 @@
 
     <!-- Session router -->
     <string name="session_back">Назад</string>
+
+    <!-- Answer option accessibility feedback -->
+    <string name="answer_option_selected_correct">Вибрана відповідь: правильна</string>
+    <string name="answer_option_selected_incorrect">Вибрана відповідь: неправильна</string>
+    <string name="answer_option_correct">Правильна відповідь</string>
 
     <!-- Free practice screen -->
     <string name="free_practice_title">Вільна практика</string>

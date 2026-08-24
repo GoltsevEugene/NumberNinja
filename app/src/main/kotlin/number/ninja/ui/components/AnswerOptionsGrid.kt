@@ -14,10 +14,17 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
+import number.ninja.R
 import number.ninja.ui.theme.onSuccessContainerColor
 import number.ninja.ui.theme.successColor
 import number.ninja.ui.theme.successContainerColor
@@ -25,9 +32,9 @@ import number.ninja.ui.theme.successContainerColor
 /**
  * 2x2 grid of tappable answer options for free practice / quiz (replaces manual numeric entry).
  * A tap on any option calls [onSelect] exactly once — [enabled] must be flipped to `false` by the
- * caller the moment an option is chosen (via [selected] going non-null) so a fast second tap
- * during a state transition can't fire [onSelect] again; this composable itself doesn't debounce,
- * it just becomes non-interactive once [selected] != null.
+ * caller while the grid should not accept input. The grid also closes a synchronous local gate
+ * before invoking [onSelect], so a second event arriving before the caller's state recomposes
+ * cannot escape. ViewModels retain their own state guard as the final business-logic backstop.
  *
  * Coloring (spec: tap-to-answer, instant highlight, no separate Check step):
  * - [selected] == null: every option neutral (`surfaceVariant`).
@@ -48,16 +55,26 @@ fun AnswerOptionsGrid(
     correctAnswer: Int,
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
+    // This state changes synchronously inside the click callback, one frame earlier than a
+    // selected-answer state propagated back through ViewModel -> Flow -> recomposition can.
+    val selectionGate = remember(options, correctAnswer) { ClickGate() }
+    val interactionEnabled = enabled && selected == null
+
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         options.chunked(2).forEach { row ->
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 row.forEach { option ->
                     AnswerOptionCard(
                         value = option,
-                        highlight = highlightFor(option, selected, correctAnswer),
-                        enabled = selected == null,
-                        onClick = { onSelect(option) },
+                        state = answerOptionStateFor(option, selected, correctAnswer),
+                        enabled = interactionEnabled,
+                        onClick = {
+                            if (interactionEnabled && selectionGate.tryLock()) {
+                                onSelect(option)
+                            }
+                        },
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -66,53 +83,86 @@ fun AnswerOptionsGrid(
     }
 }
 
-private enum class AnswerOptionHighlight { NONE, CORRECT, WRONG }
+internal enum class AnswerOptionState {
+    NEUTRAL,
+    SELECTED_CORRECT,
+    SELECTED_WRONG,
+    REVEALED_CORRECT,
+}
 
-private fun highlightFor(option: Int, selected: Int?, correctAnswer: Int): AnswerOptionHighlight = when {
-    selected == null -> AnswerOptionHighlight.NONE
-    option == correctAnswer -> AnswerOptionHighlight.CORRECT
-    option == selected -> AnswerOptionHighlight.WRONG
-    else -> AnswerOptionHighlight.NONE
+internal fun answerOptionStateFor(option: Int, selected: Int?, correctAnswer: Int): AnswerOptionState = when {
+    selected == null -> AnswerOptionState.NEUTRAL
+    option == selected && option == correctAnswer -> AnswerOptionState.SELECTED_CORRECT
+    option == selected -> AnswerOptionState.SELECTED_WRONG
+    option == correctAnswer -> AnswerOptionState.REVEALED_CORRECT
+    else -> AnswerOptionState.NEUTRAL
 }
 
 @Composable
 private fun AnswerOptionCard(
     value: Int,
-    highlight: AnswerOptionHighlight,
+    state: AnswerOptionState,
     enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val containerColor = when (highlight) {
-        AnswerOptionHighlight.CORRECT -> successContainerColor()
-        AnswerOptionHighlight.WRONG -> MaterialTheme.colorScheme.errorContainer
-        AnswerOptionHighlight.NONE -> MaterialTheme.colorScheme.surfaceVariant
+    val containerColor = when (state) {
+        AnswerOptionState.SELECTED_CORRECT,
+        AnswerOptionState.REVEALED_CORRECT -> successContainerColor()
+        AnswerOptionState.SELECTED_WRONG -> MaterialTheme.colorScheme.errorContainer
+        AnswerOptionState.NEUTRAL -> MaterialTheme.colorScheme.surfaceVariant
     }
-    val contentColor = when (highlight) {
-        AnswerOptionHighlight.CORRECT -> onSuccessContainerColor()
-        AnswerOptionHighlight.WRONG -> MaterialTheme.colorScheme.onErrorContainer
-        AnswerOptionHighlight.NONE -> MaterialTheme.colorScheme.onSurfaceVariant
+    val contentColor = when (state) {
+        AnswerOptionState.SELECTED_CORRECT,
+        AnswerOptionState.REVEALED_CORRECT -> onSuccessContainerColor()
+        AnswerOptionState.SELECTED_WRONG -> MaterialTheme.colorScheme.onErrorContainer
+        AnswerOptionState.NEUTRAL -> MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val borderColor: Color? = when (highlight) {
-        AnswerOptionHighlight.CORRECT -> successColor()
-        AnswerOptionHighlight.WRONG -> MaterialTheme.colorScheme.error
-        AnswerOptionHighlight.NONE -> null
+    val borderColor: Color? = when (state) {
+        AnswerOptionState.SELECTED_CORRECT,
+        AnswerOptionState.REVEALED_CORRECT -> successColor()
+        AnswerOptionState.SELECTED_WRONG -> MaterialTheme.colorScheme.error
+        AnswerOptionState.NEUTRAL -> null
     }
+    val accessibilityState = when (state) {
+        AnswerOptionState.SELECTED_CORRECT -> stringResource(R.string.answer_option_selected_correct)
+        AnswerOptionState.SELECTED_WRONG -> stringResource(R.string.answer_option_selected_incorrect)
+        AnswerOptionState.REVEALED_CORRECT -> stringResource(R.string.answer_option_correct)
+        AnswerOptionState.NEUTRAL -> null
+    }
+    val highlighted = state != AnswerOptionState.NEUTRAL
+    val cardModifier = modifier
+        .height(72.dp)
+        .then(
+            if (accessibilityState == null) {
+                Modifier
+            } else {
+                Modifier.semantics {
+                    stateDescription = accessibilityState
+                    liveRegion = LiveRegionMode.Assertive
+                }
+            },
+        )
     Card(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.height(72.dp),
+        modifier = cardModifier,
         // `disabledContainerColor`/`disabledContentColor` must be set explicitly too: once an
         // option is picked, every card in the grid (including the highlighted correct/wrong
         // ones) has `enabled = false`, and Card silently falls back to M3's default *dimmed*
         // disabled colors for any slot not given here — which would hide the green/red highlight
-        // entirely behind the disabled-state dimming. Mirroring containerColor/contentColor here
-        // keeps the highlight visible while still disabling the click itself.
+        // entirely behind the disabled-state dimming. Preserve highlighted colors, but visibly dim
+        // neutral disabled cards so the 350 ms arming window never looks tappable while ignoring
+        // input, and so unselected options recede during feedback.
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
             contentColor = contentColor,
-            disabledContainerColor = containerColor,
-            disabledContentColor = contentColor,
+            disabledContainerColor = if (highlighted) {
+                containerColor
+            } else {
+                containerColor.copy(alpha = 0.55f)
+            },
+            disabledContentColor = if (highlighted) contentColor else contentColor.copy(alpha = 0.38f),
         ),
         border = borderColor?.let { BorderStroke(2.dp, it) },
     ) {

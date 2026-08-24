@@ -24,6 +24,7 @@
     <string name="quiz_sub_mode_fixed_level">Выбранный уровень</string>
 
     <!-- Language display names -->
+    <string name="language_system">Как в системе</string>
     <string name="language_ukrainian">Украинский</string>
     <string name="language_russian">Русский</string>
     <string name="language_english">Английский</string>
@@ -34,7 +35,7 @@
     <string name="home_progress">Мой прогресс</string>
     <string name="home_summary_separator">" · "</string>
     <string name="home_summary_fixed_level_format">%1$s: %2$s</string>
-    <string name="home_summary_edit_hint">Нажмите, чтобы изменить</string>
+    <string name="home_summary_edit_hint">Изменить настройки</string>
 
     <!-- First-run quick setup -->
     <string name="quick_setup_title">Настроимся</string>
@@ -58,6 +59,11 @@
 
     <!-- Session router -->
     <string name="session_back">Назад</string>
+
+    <!-- Answer option accessibility feedback -->
+    <string name="answer_option_selected_correct">Выбранный ответ: правильный</string>
+    <string name="answer_option_selected_incorrect">Выбранный ответ: неправильный</string>
+    <string name="answer_option_correct">Правильный ответ</string>
 
     <!-- Free practice screen -->
     <string name="free_practice_title">Свободная практика</string>

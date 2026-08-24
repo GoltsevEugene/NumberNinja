@@ -1,6 +1,7 @@
 package number.ninja.data.facts
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import number.ninja.R
 import kotlin.random.Random
 
@@ -27,11 +28,20 @@ class FactsRepository(private val context: Context) {
             remaining = freshPool().shuffled(random).toMutableList()
         }
         val (arrayResId, index) = remaining.removeAt(remaining.lastIndex)
-        return context.resources.getStringArray(arrayResId)[index]
+        return localizedResources().getStringArray(arrayResId)[index]
     }
 
     private fun freshPool(): List<Pair<Int, Int>> = categoryArrayResIds.flatMap { arrayResId ->
-        val size = context.resources.getStringArray(arrayResId).size
+        val size = localizedResources().getStringArray(arrayResId).size
         (0 until size).map { index -> arrayResId to index }
     }
+
+    /**
+     * AppCompat's per-app locales are attached to an AppCompatActivity context on API 32 and
+     * lower; the application context injected into this repository can therefore keep exposing
+     * resources in the device locale after an in-app language change. Asking AndroidX for a
+     * language-aware context keeps these non-UI resource reads aligned with Compose's
+     * `stringResource` calls on every supported Android version.
+     */
+    private fun localizedResources() = ContextCompat.getContextForLanguage(context).resources
 }

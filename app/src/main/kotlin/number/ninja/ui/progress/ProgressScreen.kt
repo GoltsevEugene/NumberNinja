@@ -37,6 +37,7 @@ import number.ninja.domain.LevelStats
 import number.ninja.domain.Operation
 import number.ninja.domain.OperationStats
 import number.ninja.ui.components.AdaptiveCenteredColumn
+import number.ninja.ui.components.rememberThrottledClick
 import number.ninja.ui.labelRes
 import org.koin.androidx.compose.koinViewModel
 
@@ -58,6 +59,7 @@ fun ProgressScreen(
     viewModel: ProgressViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val backClick = rememberThrottledClick(onClick = onBack)
     var selectedOperation by remember { mutableStateOf<Operation?>(null) }
 
     Scaffold(
@@ -65,7 +67,7 @@ fun ProgressScreen(
             TopAppBar(
                 title = { Text(text = stringResource(R.string.progress_title)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = backClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.progress_back),

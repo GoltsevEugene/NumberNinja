@@ -89,7 +89,7 @@ class FreePracticeViewModel(
         _uiState.value = FreePracticeUiState.Feedback(example, current.options, correctAnswer, answer)
     }
 
-    /** Auto-advance after the 3s answer-highlight window (`FreePracticeScreen`'s `LaunchedEffect`). */
+    /** Auto-advance after the lifecycle-aware answer-highlight window in `FreePracticeScreen`. */
     fun onFeedbackDismissed() {
         // Same double-tap-during-Crossfade guard as submitAnswer, kept even though this is no
         // longer button-triggered: the timer could in theory fire twice if this were ever called

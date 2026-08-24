@@ -4,12 +4,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Insights
@@ -19,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -36,6 +40,7 @@ import number.ninja.domain.UserSettings
 import number.ninja.ui.components.AdaptiveCenteredColumn
 import number.ninja.ui.components.BigActionButton
 import number.ninja.ui.labelRes
+import number.ninja.ui.components.rememberThrottledClick
 import org.koin.androidx.compose.koinViewModel
 
 /**
@@ -52,6 +57,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
+    // The top gear, the summary itself and the explicit edit action all share one gate. A burst
+    // spanning two of these surfaces still produces only one navigation event.
+    val settingsClick = rememberThrottledClick(onClick = onSettingsClick)
+    val progressClick = rememberThrottledClick(onClick = onProgressClick)
 
     Scaffold(
         topBar = {
@@ -65,13 +74,13 @@ fun HomeScreen(
                     .padding(8.dp),
             ) {
                 Row(modifier = Modifier.align(Alignment.TopEnd)) {
-                    IconButton(onClick = onProgressClick) {
+                    IconButton(onClick = progressClick) {
                         Icon(
                             imageVector = Icons.Filled.Insights,
                             contentDescription = stringResource(R.string.home_progress),
                         )
                     }
-                    IconButton(onClick = onSettingsClick) {
+                    IconButton(onClick = settingsClick) {
                         Icon(
                             imageVector = Icons.Filled.Settings,
                             contentDescription = stringResource(R.string.home_settings),
@@ -98,29 +107,38 @@ fun HomeScreen(
                 // Deliberately de-emphasized vs. the title/Start button (labelMedium, muted
                 // color, one line per setting) per user feedback that the old single-line
                 // comma-separated summary read as visually heavy secondary info. The whole
-                // block is clickable — same destination as the gear icon — with a small
-                // trailing hint making that discoverable instead of relying on the icon alone.
+                // summary remains clickable, while a conventional text button with a gear gives
+                // the settings action an explicit label instead of asking users to infer it from
+                // an instructional hint or from the Start button.
                 Column(
                     modifier = Modifier
-                        .padding(top = 8.dp, bottom = 32.dp)
-                        .clickable(onClick = onSettingsClick)
-                        .semantics { role = Role.Button }
-                        .padding(8.dp),
+                        .padding(top = 8.dp, bottom = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    current.summaryLines().forEach { line ->
-                        Text(
-                            text = line,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                    Column(
+                        modifier = Modifier
+                            .clickable(onClick = settingsClick)
+                            .semantics { role = Role.Button }
+                            .padding(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        current.summaryLines().forEach { line ->
+                            Text(
+                                text = line,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
                     }
-                    Text(
-                        text = stringResource(R.string.home_summary_edit_hint),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 4.dp),
-                    )
+                    TextButton(onClick = settingsClick) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(text = stringResource(R.string.home_summary_edit_hint))
+                    }
                 }
             }
 

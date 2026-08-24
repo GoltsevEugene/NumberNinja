@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    width="1024"
+    height="500"
+    viewBox="0 0 1024 500">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF9F4"/>
+      <stop offset="1" stop-color="#F9E4D2"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#7C3300" flood-opacity="0.20"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="500" fill="url(#background)"/>
+
+  <!-- Low-contrast decorative shapes; all important content stays in the central safe area. -->
+  <circle cx="970" cy="32" r="165" fill="#B4560A" opacity="0.07"/>
+  <circle cx="42" cy="488" r="145" fill="#B4560A" opacity="0.06"/>
+  <path d="M535 105 h34 M552 88 v34" stroke="#B4560A" stroke-width="10"
+      stroke-linecap="round" opacity="0.14"/>
+  <path d="M555 402 h38" stroke="#B4560A" stroke-width="10"
+      stroke-linecap="round" opacity="0.14"/>
+
+  <!-- Brand copy. -->
+  <text x="92" y="214"
+      font-family="Avenir Next, Avenir, Verdana, sans-serif"
+      font-size="72"
+      font-weight="700"
+      letter-spacing="-2"
+      fill="#46220E">Number Ninja</text>
+  <text x="96" y="269"
+      font-family="Avenir Next, Avenir, Verdana, sans-serif"
+      font-size="34"
+      font-weight="500"
+      fill="#8D481A">Math Practice</text>
+
+  <g transform="translate(96 307)">
+    <rect width="316" height="52" rx="26" fill="#FFFFFF" opacity="0.82"/>
+    <text x="158" y="34"
+        text-anchor="middle"
+        font-family="Avenir Next, Avenir, Verdana, sans-serif"
+        font-size="20"
+        font-weight="600"
+        letter-spacing="0.4"
+        fill="#8D481A">Practice  •  Quiz  •  Progress</text>
+  </g>
+
+  <!-- Current Number Ninja mark, using the exact geometry of the launcher icon. -->
+  <g filter="url(#softShadow)">
+    <rect x="650" y="100" width="300" height="300" rx="74" fill="#B4560A"/>
+  </g>
+
+  <g transform="translate(650 100) scale(2.7777777778)"
+      fill="none" stroke="#FFFFFF" stroke-linecap="round">
+    <path d="M38 34.5 L38 41.5" stroke-width="3"/>
+    <path d="M34.5 38 L41.5 38" stroke-width="3"/>
+    <path d="M66.5 38 L73.5 38" stroke-width="3"/>
+    <path d="M34.5 66.5 L41.5 73.5" stroke-width="3"/>
+    <path d="M41.5 66.5 L34.5 73.5" stroke-width="3"/>
+    <path d="M66.5 70 L73.5 70" stroke-width="3"/>
+    <path d="M49.8 50 C49.8 45.6 58.6 45.6 58.6 50.6 C58.6 54 54 54 54 58.6"
+        stroke-width="2.8"/>
+  </g>
+
+  <g transform="translate(650 100) scale(2.7777777778)" fill="#FFFFFF">
+    <circle cx="70" cy="65.5" r="1.25"/>
+    <circle cx="70" cy="74.5" r="1.25"/>
+    <circle cx="54" cy="63.5" r="1.6"/>
+  </g>
+</svg>

@@ -8,18 +8,14 @@ plugins {
 
 android {
     namespace = "number.ninja"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "number.ninja"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 37
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,13 +34,24 @@ android {
         compose = true
     }
     androidResources {
+        // Prevent translations bundled by dependencies from being advertised as fully supported
+        // app languages or producing a partially translated UI.
+        localeFilters += listOf("en", "ru", "uk")
+
         // Auto-generates the per-app-language LocaleConfig + wires android:localeConfig into the
         // manifest from this module's values-*/ dirs (en/uk/ru), so the app shows up under
         // Settings > Apps > NumberNinja > Language on API 33+ without a hand-written
-        // res/xml/locales_config.xml. Requires compileSdk >= 33 (this project targets 36) and a
+        // res/xml/locales_config.xml. Requires compileSdk >= 33 (this project targets 37) and a
         // res/resources.properties with unqualifiedResLocale set (see that file) — confirmed via
         // developer.android.com/guide/topics/resources/app-languages, stable since AGP 8.1.
         generateLocaleConfig = true
+    }
+    bundle {
+        language {
+            // The app has its own language picker. Keep every supported translation in the
+            // installed APK so a language that differs from the device locale is always present.
+            enableSplit = false
+        }
     }
     testOptions {
         unitTests.isReturnDefaultValues = true

@@ -1,8 +1,7 @@
 package number.ninja.ui.settings
 
 import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -30,9 +29,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -50,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import number.ninja.R
 import number.ninja.domain.AppLanguage
 import number.ninja.domain.Level
@@ -58,11 +55,10 @@ import number.ninja.domain.QuizSubMode
 import number.ninja.domain.TrainingMode
 import number.ninja.domain.UserSettings
 import number.ninja.ui.components.AdaptiveCenteredColumn
+import number.ninja.ui.components.rememberThrottledClick
 import number.ninja.ui.labelRes
 import org.koin.androidx.compose.koinViewModel
-import java.util.Locale
 import kotlin.math.roundToInt
-import androidx.core.net.toUri
 
 private const val PRIVACY_POLICY_URL = "https://goltseveugene.github.io/number-ninja-privacy/"
 
@@ -79,13 +75,14 @@ fun SettingsScreen(
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val backClick = rememberThrottledClick(onClick = onBack)
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.settings_title)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = backClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.settings_back),
@@ -119,8 +116,9 @@ fun SettingsScreen(
 
 @Composable
 private fun PrivacyPolicyButton(onClick: () -> Unit) {
+    val guardedOnClick = rememberThrottledClick(onClick = onClick)
     OutlinedButton(
-        onClick = onClick,
+        onClick = guardedOnClick,
         modifier = Modifier.fillMaxWidth(),
     ) {
         Text(stringResource(R.string.settings_privacy_policy))
@@ -149,6 +147,16 @@ fun SettingsContent(
     footer: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
     var showResetDialog by remember { mutableStateOf(false) }
+    val selectedLanguage by viewModel.selectedLanguage.collectAsStateWithLifecycle()
+    val confirmReset = rememberThrottledClick {
+        viewModel.resetToDefaults()
+        showResetDialog = false
+    }
+
+    LifecycleResumeEffect(viewModel) {
+        viewModel.refreshSelectedLanguage()
+        onPauseOrDispose { }
+    }
 
     AdaptiveCenteredColumn(
         modifier = modifier,
@@ -227,20 +235,9 @@ fun SettingsContent(
                 text = stringResource(R.string.settings_language_label),
                 style = MaterialTheme.typography.titleMedium,
             )
-            LanguageSegmentedControl(
-                // current.language == null means "no explicit override — follow system". For
-                // display purposes only (never persisted just from viewing this screen), resolve
-                // which of the 3 supported languages is actually active so a chip always shows
-                // as selected instead of none — see resolveActiveLanguage().
-                selected = current.language ?: resolveActiveLanguage(),
-                onSelect = { language ->
-                    // Persist only — NumberNinjaNavHost's LaunchedEffect(current.language)
-                    // is the single owner of AppCompatDelegate.setApplicationLocales()
-                    // now. Calling it here too would apply the same change twice
-                    // (once here, once when the DataStore emission propagates),
-                    // which visibly flickers via a double Activity-recreate on API < 33.
-                    viewModel.selectLanguage(language)
-                },
+            LanguageOptions(
+                selected = selectedLanguage,
+                onSelect = viewModel::selectLanguage,
             )
         }
 
@@ -269,10 +266,7 @@ fun SettingsContent(
             title = { Text(stringResource(R.string.settings_reset_confirm_title)) },
             confirmButton = {
                 TextButton(
-                    onClick = {
-                        viewModel.resetToDefaults()
-                        showResetDialog = false
-                    },
+                    onClick = confirmReset,
                 ) {
                     Text(stringResource(R.string.settings_reset_confirm))
                 }
@@ -284,22 +278,6 @@ fun SettingsContent(
             },
         )
     }
-}
-
-/**
- * Which [AppLanguage] is actually active right now, for display when [UserSettings.language]
- * is null ("follow system") — checks [AppCompatDelegate.getApplicationLocales] first (the
- * app-level override, e.g. set via the OS's per-app language screen) and falls back to
- * [Locale.getDefault] when that's empty. Falls back to [AppLanguage.ENGLISH] if the active
- * locale's language tag matches none of the 3 supported languages (e.g. device is in French) —
- * matching the app's actual resource-fallback behavior. Purely a display computation: never
- * writes anything, so viewing this screen never turns a null/"system" setting into an explicit
- * persisted choice.
- */
-private fun resolveActiveLanguage(): AppLanguage {
-    val applicationLocales = AppCompatDelegate.getApplicationLocales()
-    val activeLocale = if (!applicationLocales.isEmpty) applicationLocales[0] else Locale.getDefault()
-    return AppLanguage.entries.find { it.tag == activeLocale?.language } ?: AppLanguage.ENGLISH
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -337,12 +315,9 @@ private fun LevelChips(selected: Level, onSelect: (Level) -> Unit) {
 }
 
 /**
- * Vertical list of selectable rows (RadioButton + label), matching [QuizSubModeOptions]'s
- * pattern rather than a [SingleChoiceSegmentedButtonRow] like [LanguageSegmentedControl] —
- * with the checkmark added, "Свободная практика" (the longest Mode label, Russian Free
- * Practice) doesn't comfortably fit a 2-wide segmented cell (confirmed via on-device
- * screenshot). Do not shrink text/icon to fit; use this control type instead, same
- * reasoning as the earlier Quiz-style fix.
+ * Vertical list of selectable rows (RadioButton + label), matching [QuizSubModeOptions].
+ * "Свободная практика" (the longest mode label) does not comfortably fit a two-wide
+ * segmented cell, so every option gets a full-width row.
  */
 @Composable
 private fun ModeOptions(selected: TrainingMode, onSelect: (TrainingMode) -> Unit) {
@@ -370,10 +345,8 @@ private fun ModeOptions(selected: TrainingMode, onSelect: (TrainingMode) -> Unit
 }
 
 /**
- * Vertical list of selectable rows (RadioButton + label), not a [SingleChoiceSegmentedButtonRow]
- * like [LanguageSegmentedControl] — with 3 options, some of them long (e.g. Russian
- * "Прогрессия сложности"/"Выбранный уровень"), a segmented row has no room to avoid text
- * wrapping/clipping. Stacking vertically gives every label its own full-width line.
+ * Some quiz-style labels are long (for example Russian "Прогрессия сложности"), so a
+ * full-width radio row avoids the wrapping and clipping of a segmented control.
  */
 @Composable
 private fun QuizSubModeOptions(selected: QuizSubMode, onSelect: (QuizSubMode) -> Unit) {
@@ -400,16 +373,35 @@ private fun QuizSubModeOptions(selected: QuizSubMode, onSelect: (QuizSubMode) ->
     }
 }
 
+/**
+ * Four language choices do not fit reliably in a segmented row on a phone, especially in
+ * Russian and Ukrainian. null is a real, user-selectable value meaning "same as system".
+ */
 @Composable
-private fun LanguageSegmentedControl(selected: AppLanguage, onSelect: (AppLanguage) -> Unit) {
-    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-        AppLanguage.entries.forEachIndexed { index, language ->
-            SegmentedButton(
-                selected = language == selected,
-                onClick = { onSelect(language) },
-                shape = SegmentedButtonDefaults.itemShape(index = index, count = AppLanguage.entries.size),
-                label = { Text(stringResource(language.labelRes())) },
-            )
+private fun LanguageOptions(selected: AppLanguage?, onSelect: (AppLanguage?) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        (listOf<AppLanguage?>(null) + AppLanguage.entries).forEach { language ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = language == selected,
+                        onClick = { onSelect(language) },
+                        role = Role.RadioButton,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(selected = language == selected, onClick = null)
+                Text(
+                    text = if (language == null) {
+                        stringResource(R.string.language_system)
+                    } else {
+                        stringResource(language.labelRes())
+                    },
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+            }
         }
     }
 }

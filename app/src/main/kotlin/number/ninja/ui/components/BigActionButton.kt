@@ -19,8 +19,9 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun BigActionButton(text: String, onClick: () -> Unit, enabled: Boolean = true, modifier: Modifier = Modifier) {
+    val guardedOnClick = rememberThrottledClick(onClick = onClick)
     Button(
-        onClick = onClick,
+        onClick = guardedOnClick,
         enabled = enabled,
         modifier = modifier
             .fillMaxWidth()

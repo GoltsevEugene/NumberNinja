@@ -1,6 +1,5 @@
 package number.ninja.ui.nav
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -8,14 +7,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import number.ninja.data.settings.AppLanguageManager
 import number.ninja.data.settings.SettingsRepository
 import number.ninja.ui.firstrun.QuickSetupScreen
 import number.ninja.ui.home.HomeScreen
@@ -48,49 +49,35 @@ private fun NavController.popBackStackIfPossible() {
  * explicitly with popUpTo/inclusive.
  */
 @Composable
-fun NumberNinjaNavHost(settingsRepository: SettingsRepository = koinInject()) {
+fun NumberNinjaNavHost(
+    settingsRepository: SettingsRepository = koinInject(),
+    appLanguageManager: AppLanguageManager = koinInject(),
+) {
     val settings by settingsRepository.settings.collectAsStateWithLifecycle(initialValue = null)
+    var localeMigrationComplete by remember { mutableStateOf(false) }
 
     val current = settings
-    if (current == null) {
-        // First DataStore emission hasn't arrived yet — render an empty themed
-        // surface rather than flashing a default (possibly wrong) start screen.
+    if (current != null) {
+        // Older releases duplicated the language in DataStore and AppCompat, which could diverge.
+        // Hand that legacy value to the now-canonical AppCompat store once, before rendering UI.
+        // The manager performs an idempotent handoff and preserves any override that was already
+        // selected in Android's own App Languages settings.
+        LaunchedEffect(Unit) {
+            try {
+                appLanguageManager.migrateLegacyLanguage()
+            } finally {
+                localeMigrationComplete = true
+            }
+        }
+    }
+
+    if (current == null || !localeMigrationComplete) {
+        // Wait for both DataStore and the one-time locale handoff so the first visible frame never
+        // flashes in a stale language before AppCompat recreates the Activity.
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Box(modifier = Modifier.fillMaxSize())
         }
         return
-    }
-
-    // Single owner of setApplicationLocales() for the whole app (SettingsScreen's language
-    // selector only persists via the ViewModel now — it does NOT call this itself, to avoid
-    // firing the recreate-on-locale-change cycle twice for one logical change). Re-applies the
-    // persisted language on every cold start, and reacts to it changing while the app is open.
-    // On API 33+ this is mostly a no-op (setApplicationLocales() already delegates to the
-    // framework LocaleManager, which survives process death on its own). Below 33, AppCompat only
-    // auto-restores a stored locale if `autoStoreLocales` manifest meta-data is declared — it
-    // isn't here — so without this, the DataStore-persisted language would be write-only: saved,
-    // but never re-applied after the process dies.
-    //
-    // `current.language == null` means "no explicit override — follow system", so this
-    // deliberately does NOT call setApplicationLocales(emptyLocaleList()) in that branch: on a
-    // device running API 33+, doing so would forcibly reset whatever locale the user picked via
-    // the system's own Settings > Apps > NumberNinja > Language screen (wired up via
-    // generateLocaleConfig) back to the true system default on the app's very next cold start —
-    // stomping the OS-level per-app-language feature this app also supports. Confirmed via device
-    // testing (`cmd locale set-app-locales`) that an unconditional empty-list call undoes that
-    // pick. Only assert a locale here when this app's own persisted setting is non-null — an
-    // explicit in-Settings pick is the one case where our stored value should win over whatever
-    // the framework currently reports.
-    LaunchedEffect(current.language) {
-        val language = current.language ?: return@LaunchedEffect
-        val target = LocaleListCompat.forLanguageTags(language.tag)
-        // Guard against redundant re-application (e.g. on cold start where the locale is
-        // already correctly applied) — setApplicationLocales() with a *different* value
-        // synchronously recreates the Activity on API < 33, so a spurious call here is a
-        // visible flicker, not just a no-op.
-        if (AppCompatDelegate.getApplicationLocales() != target) {
-            AppCompatDelegate.setApplicationLocales(target)
-        }
     }
 
     val startDestination = remember { if (current.hasCompletedFirstRun) Route.Home else Route.QuickSetup }
