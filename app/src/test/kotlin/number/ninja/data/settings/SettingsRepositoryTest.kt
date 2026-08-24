@@ -9,7 +9,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.test.runTest
 import number.ninja.domain.Level
@@ -21,7 +20,7 @@ class SettingsRepositoryTest {
     @Test
     fun `concurrent updates of different fields preserve both changes`() = runTest {
         val dataStore = CoordinatedPreferencesDataStore()
-        val repository = SettingsRepository(dataStore)
+        val repository = SettingsRepository(dataStore, backgroundScope)
 
         listOf(
             async { repository.update { it.copy(level = Level.HARD) } },
@@ -29,9 +28,24 @@ class SettingsRepositoryTest {
         ).awaitAll()
 
         dataStore.stopCoordinatingReads()
-        val settings = repository.settings.first()
+        val settings = repository.awaitSettings()
         assertEquals(Level.HARD, settings.level)
         assertEquals(15, settings.quizLength)
+    }
+
+    @Test
+    fun `loaded settings remain cached for a recreated UI`() = runTest {
+        val dataStore = CoordinatedPreferencesDataStore().apply { stopCoordinatingReads() }
+        val repository = SettingsRepository(dataStore, backgroundScope)
+        repository.update { it.copy(level = Level.STAR, quizLength = 18) }
+
+        val firstScreen = repository.awaitSettings()
+
+        assertEquals(firstScreen, repository.settings.value)
+        // A second collector represents a newly recreated Activity and must not see null first.
+        assertEquals(firstScreen, repository.awaitSettings())
+        assertEquals(Level.STAR, firstScreen.level)
+        assertEquals(18, firstScreen.quizLength)
     }
 
     /**

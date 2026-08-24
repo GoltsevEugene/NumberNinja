@@ -9,7 +9,9 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import number.ninja.domain.AppLanguage
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 
@@ -55,14 +57,60 @@ class AppLanguageManagerTest {
         var applicationTags = ""
         val manager = AppLanguageManager(
             dataStore = dataStore,
+            applicationScope = backgroundScope,
             applicationLanguageTags = { applicationTags },
             applyApplicationLanguageTags = { applicationTags = it },
         )
 
+        assertFalse(manager.legacyMigrationComplete.value)
         assertEquals(AppLanguage.UKRAINIAN, manager.migrateLegacyLanguage())
         assertEquals("uk", applicationTags)
         assertNull(dataStore.data.first()[stringPreferencesKey("language")])
+        assertTrue(manager.legacyMigrationComplete.value)
         assertNull(manager.migrateLegacyLanguage())
+    }
+
+    @Test
+    fun `migration readiness remains cached when no legacy language exists`() = runTest {
+        val manager = manager(
+            testScope = this,
+            readTags = { "ru" },
+            applyTags = { error("No locale should be applied") },
+        )
+
+        assertFalse(manager.legacyMigrationComplete.value)
+        assertNull(manager.migrateLegacyLanguage())
+        assertTrue(manager.legacyMigrationComplete.value)
+
+        // Simulates a newly recreated Activity asking the same process-scoped manager again.
+        assertNull(manager.migrateLegacyLanguage())
+        assertTrue(manager.legacyMigrationComplete.value)
+    }
+
+    @Test
+    fun `starting migration twice launches one process scoped handoff`() = runTest {
+        val dataStore = dataStore(this, "process-scoped-handoff")
+        dataStore.edit { it[stringPreferencesKey("language")] = "uk" }
+        var applicationTags = ""
+        var applyCount = 0
+        val manager = AppLanguageManager(
+            dataStore = dataStore,
+            applicationScope = backgroundScope,
+            applicationLanguageTags = { applicationTags },
+            applyApplicationLanguageTags = {
+                applyCount++
+                applicationTags = it
+            },
+        )
+
+        manager.startLegacyMigration()
+        manager.startLegacyMigration()
+        manager.legacyMigrationComplete.first { it }
+
+        assertEquals(1, applyCount)
+        assertEquals("uk", applicationTags)
+        assertNull(dataStore.data.first()[stringPreferencesKey("language")])
+        assertTrue(manager.legacyMigrationComplete.value)
     }
 
     @Test
@@ -72,6 +120,7 @@ class AppLanguageManagerTest {
         var applicationTags = "ru"
         val manager = AppLanguageManager(
             dataStore = dataStore,
+            applicationScope = backgroundScope,
             applicationLanguageTags = { applicationTags },
             applyApplicationLanguageTags = { applicationTags = it },
         )
@@ -89,6 +138,7 @@ class AppLanguageManagerTest {
         var applicationTags = ""
         val manager = AppLanguageManager(
             dataStore = dataStore,
+            applicationScope = backgroundScope,
             applicationLanguageTags = { applicationTags },
             applyApplicationLanguageTags = { applicationTags = it },
             shouldMigrateLegacyLanguage = { false },
@@ -106,6 +156,7 @@ class AppLanguageManagerTest {
         applyTags: (String) -> Unit,
     ) = AppLanguageManager(
         dataStore = dataStore(testScope, "manager"),
+        applicationScope = testScope.backgroundScope,
         applicationLanguageTags = readTags,
         applyApplicationLanguageTags = applyTags,
     )

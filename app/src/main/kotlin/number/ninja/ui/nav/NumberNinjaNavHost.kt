@@ -5,11 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -53,27 +50,13 @@ fun NumberNinjaNavHost(
     settingsRepository: SettingsRepository = koinInject(),
     appLanguageManager: AppLanguageManager = koinInject(),
 ) {
-    val settings by settingsRepository.settings.collectAsStateWithLifecycle(initialValue = null)
-    var localeMigrationComplete by remember { mutableStateOf(false) }
+    val settings by settingsRepository.settings.collectAsStateWithLifecycle()
+    val localeMigrationComplete by appLanguageManager.legacyMigrationComplete.collectAsStateWithLifecycle()
 
     val current = settings
-    if (current != null) {
-        // Older releases duplicated the language in DataStore and AppCompat, which could diverge.
-        // Hand that legacy value to the now-canonical AppCompat store once, before rendering UI.
-        // The manager performs an idempotent handoff and preserves any override that was already
-        // selected in Android's own App Languages settings.
-        LaunchedEffect(Unit) {
-            try {
-                appLanguageManager.migrateLegacyLanguage()
-            } finally {
-                localeMigrationComplete = true
-            }
-        }
-    }
-
     if (current == null || !localeMigrationComplete) {
-        // Wait for both DataStore and the one-time locale handoff so the first visible frame never
-        // flashes in a stale language before AppCompat recreates the Activity.
+        // Wait for both DataStore and the one-time locale handoff so a cold start never exposes
+        // stale-language content while AppCompat is restoring the persisted app locale.
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Box(modifier = Modifier.fillMaxSize())
         }

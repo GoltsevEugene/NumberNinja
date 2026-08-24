@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
@@ -50,7 +49,7 @@ class SettingsViewModelTest {
     fun `reset preserves first run and resets settings before selecting system language`() =
         runTest(testDispatcher) {
             val dataStore = RecordingPreferencesDataStore()
-            val repository = SettingsRepository(dataStore)
+            val repository = SettingsRepository(dataStore, backgroundScope)
             val nonDefaultSettings = UserSettings(
                 operations = setOf(Operation.MULTIPLICATION, Operation.DIVISION),
                 level = Level.STAR,
@@ -67,6 +66,7 @@ class SettingsViewModelTest {
             var settingsWerePersistedWhenSystemLanguageWasSelected = false
             val languageManager = AppLanguageManager(
                 dataStore = dataStore,
+                applicationScope = backgroundScope,
                 applicationLanguageTags = { applicationLanguageTags },
                 applyApplicationLanguageTags = { tags ->
                     settingsWerePersistedWhenSystemLanguageWasSelected =
@@ -81,7 +81,7 @@ class SettingsViewModelTest {
 
             assertEquals(
                 UserSettings(hasCompletedFirstRun = true),
-                repository.settings.first(),
+                repository.awaitSettings(),
             )
             assertEquals("", applicationLanguageTags)
             assertNull(viewModel.selectedLanguage.value)

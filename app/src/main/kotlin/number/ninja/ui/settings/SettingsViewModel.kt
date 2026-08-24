@@ -2,9 +2,7 @@ package number.ninja.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import number.ninja.data.settings.AppLanguageManager
 import number.ninja.data.settings.SettingsRepository
@@ -30,7 +28,6 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     val settings: StateFlow<UserSettings?> = settingsRepository.settings
-        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     fun toggleOperation(operation: Operation) = update { current ->
         val next = current.operations.toMutableSet()

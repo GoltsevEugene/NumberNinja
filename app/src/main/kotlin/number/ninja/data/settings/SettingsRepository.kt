@@ -6,8 +6,13 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import number.ninja.domain.Level
 import number.ninja.domain.Operation
 import number.ninja.domain.QuizSubMode
@@ -15,9 +20,25 @@ import number.ninja.domain.ThemeMode
 import number.ninja.domain.TrainingMode
 import number.ninja.domain.UserSettings
 
-class SettingsRepository(private val dataStore: DataStore<Preferences>) {
+class SettingsRepository(
+    private val dataStore: DataStore<Preferences>,
+    applicationScope: CoroutineScope,
+) {
 
-    val settings: Flow<UserSettings> = dataStore.data.map { it.toUserSettings() }
+    /**
+     * Process-scoped cache of the latest persisted settings.
+     *
+     * The first app screen still waits for a real DataStore value instead of guessing defaults,
+     * hence the nullable initial value. Once loaded, [SharingStarted.Lazily] keeps the upstream
+     * collection alive in [applicationScope], so a newly created UI can render immediately from
+     * [StateFlow.value] instead of briefly returning to an unloaded state.
+     */
+    val settings: StateFlow<UserSettings?> = dataStore.data
+        .map { it.toUserSettings() }
+        .stateIn(applicationScope, SharingStarted.Lazily, null)
+
+    /** Suspends only during cold process startup; later callers receive the process cache. */
+    suspend fun awaitSettings(): UserSettings = settings.filterNotNull().first()
 
     /**
      * Reads and writes under DataStore's single edit transaction. The old implementation called

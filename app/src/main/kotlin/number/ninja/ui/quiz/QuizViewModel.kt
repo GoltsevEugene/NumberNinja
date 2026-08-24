@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import number.ninja.data.db.StatsRepository
 import number.ninja.data.facts.FactsRepository
@@ -79,7 +78,7 @@ class QuizViewModel(
 
     init {
         viewModelScope.launch {
-            val settings = settingsRepository.settings.first()
+            val settings = settingsRepository.awaitSettings()
             questions = generateQuizQuestions(settings)
             _uiState.value = questionState(0)
         }

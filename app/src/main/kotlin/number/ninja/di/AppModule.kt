@@ -1,6 +1,9 @@
 package number.ninja.di
 
 import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import number.ninja.data.db.AppDatabase
 import number.ninja.data.db.StatsRepository
 import number.ninja.data.facts.FactsRepository
@@ -16,16 +19,32 @@ import number.ninja.ui.quiz.QuizViewModel
 import number.ninja.ui.settings.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+private val applicationScopeQualifier = named("applicationScope")
+
 val dataModule = module {
+    single(applicationScopeQualifier) {
+        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    }
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
     }
     single { get<AppDatabase>().attemptDao() }
     single { StatsRepository(get()) }
-    single { SettingsRepository(androidContext().settingsDataStore) }
-    single { AppLanguageManager(androidContext().settingsDataStore) }
+    single {
+        SettingsRepository(
+            dataStore = androidContext().settingsDataStore,
+            applicationScope = get(applicationScopeQualifier),
+        )
+    }
+    single {
+        AppLanguageManager(
+            dataStore = androidContext().settingsDataStore,
+            applicationScope = get(applicationScopeQualifier),
+        )
+    }
     single { FactsRepository(androidContext()) }
 }
 

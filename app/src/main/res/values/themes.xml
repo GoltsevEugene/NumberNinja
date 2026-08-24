@@ -4,6 +4,7 @@
          and status bar before Compose takes over, and must stay AppCompat-descended
          for AppCompatDelegate.setApplicationLocales() in a later phase. -->
     <style name="Theme.NumberNinja" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/app_window_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Must match md_dark_background in ui/theme/Color.kt. -->
+    <color name="app_window_background">#FF201A17</color>
+</resources>

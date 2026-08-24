@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import number.ninja.data.db.StatsRepository
 import number.ninja.data.facts.FactsRepository
@@ -64,7 +63,7 @@ class FreePracticeViewModel(
 
     init {
         viewModelScope.launch {
-            settingsSnapshot = settingsRepository.settings.first()
+            settingsSnapshot = settingsRepository.awaitSettings()
             _uiState.value = nextQuestion()
         }
     }

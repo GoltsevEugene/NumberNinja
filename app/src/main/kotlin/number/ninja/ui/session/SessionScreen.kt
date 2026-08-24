@@ -26,7 +26,7 @@ fun SessionScreen(
     onQuizFinished: () -> Unit,
     settingsRepository: SettingsRepository = koinInject(),
 ) {
-    val settings by settingsRepository.settings.collectAsStateWithLifecycle(initialValue = null)
+    val settings by settingsRepository.settings.collectAsStateWithLifecycle()
 
     when (settings?.mode) {
         TrainingMode.FREE_PRACTICE -> FreePracticeScreen(onExit = onExit)

@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.CompositionLocalProvider
+import number.ninja.data.settings.AppLanguageManager
 import number.ninja.ui.components.LocalWindowWidthSizeClass
 import number.ninja.ui.nav.NumberNinjaNavHost
 import number.ninja.ui.theme.NumberNinjaTheme
+import org.koin.android.ext.android.inject
 
 /**
  * Single Activity per spec §2/§3 — all screens are composables in [NumberNinjaNavHost].
@@ -29,8 +31,11 @@ import number.ninja.ui.theme.NumberNinjaTheme
  */
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class MainActivity : AppCompatActivity() {
+    private val appLanguageManager: AppLanguageManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appLanguageManager.startLegacyMigration()
         enableEdgeToEdge()
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
