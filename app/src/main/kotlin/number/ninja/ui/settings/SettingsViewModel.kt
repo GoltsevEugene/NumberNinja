@@ -79,8 +79,8 @@ class SettingsViewModel(
      * Resets every setting except [UserSettings.hasCompletedFirstRun] back to its default,
      * including returning the language choice to "same as system".
      * `hasCompletedFirstRun` is preserved so a reset can't send an existing user back through
-     * first run. Persist the regular settings before changing locale because the latter can
-     * recreate the Activity immediately.
+     * first run. Persist the regular settings before changing locale so all non-language defaults
+     * are durable before the locale configuration is dispatched to the UI.
      */
     fun resetToDefaults() {
         viewModelScope.launch {

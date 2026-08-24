@@ -1,5 +1,6 @@
 package number.ninja
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -45,5 +46,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // The Activity handles locale/layout-direction changes without recreation. Re-read the
+        // platform value as well: in multi-resume, Android's App Languages screen can change it
+        // while this Activity remains RESUMED, so LifecycleResumeEffect alone is not sufficient.
+        appLanguageManager.refreshSelectedLanguage()
     }
 }

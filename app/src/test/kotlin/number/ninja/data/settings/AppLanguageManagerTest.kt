@@ -51,6 +51,24 @@ class AppLanguageManagerTest {
     }
 
     @Test
+    fun `configuration refresh mirrors external system selection without writing locales`() = runTest {
+        var applicationTags = "ru"
+        var applyCount = 0
+        val manager = manager(
+            testScope = this,
+            readTags = { applicationTags },
+            applyTags = { applyCount++ },
+        )
+
+        // Simulates Android Settings changing an already-running app back to "same as system".
+        applicationTags = ""
+        manager.refreshSelectedLanguage()
+
+        assertNull(manager.selectedLanguage.value)
+        assertEquals(0, applyCount)
+    }
+
+    @Test
     fun `legacy DataStore language is handed off once when no platform override exists`() = runTest {
         val dataStore = dataStore(this, "legacy-handoff")
         dataStore.edit { it[stringPreferencesKey("language")] = "uk" }

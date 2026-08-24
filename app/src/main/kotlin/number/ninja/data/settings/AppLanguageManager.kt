@@ -52,7 +52,8 @@ class AppLanguageManager(
 
     /**
      * Observable mirror of AppCompat's current override; null means resources follow the system.
-     * It is not another persisted source of truth and is refreshed whenever Settings resumes.
+     * It is not another persisted source of truth and is refreshed when Settings resumes and
+     * whenever the Activity receives an external configuration change.
      */
     val selectedLanguage: StateFlow<AppLanguage?> = _selectedLanguage.asStateFlow()
 
